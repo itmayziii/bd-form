@@ -1,0 +1,30 @@
+{
+  "name": "form",
+  "version": "0.0.1",
+  "description": "Helps perform complex data validation on the front end",
+  "main": "index.js",
+  "scripts": {
+    "dev:library": "node_modules/.bin/webpack -w --config webpack.config.js",
+    "dev:test-html": "node_modules/.bin/webpack -w --config testing/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tommymay37@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.18.13",
+    "browser-sync-webpack-plugin": "^1.2.0",
+    "css-loader": "^0.28.7",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.0",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
+  },
+  "dependencies": {}
+}
