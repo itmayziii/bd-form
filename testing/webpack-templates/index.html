@@ -5,18 +5,22 @@
     <title>Form</title>
 </head>
 <body>
-<form>
+<form class="form" id="test-form" novalidate>
     <div class="form-control">
-        <label for="first-name">First Name</label>
+        <label for="first-name">First Name*</label>
         <input type="text" name="first-name" id="first-name">
     </div>
     <div class="form-control">
-        <label for="last-name">Last Name</label>
+        <label for="last-name">Last Name*</label>
         <input type="text" name="last-name" id="last-name">
     </div>
     <div class="form-control">
-        <label for="email">Email</label>
+        <label for="email">Email*</label>
         <input type="text" name="email" id="email">
+    </div>
+
+    <div class="form-buttons">
+        <button class="button" type="submit">Submit</button>
     </div>
 </form>
 

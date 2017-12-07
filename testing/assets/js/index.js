@@ -1,1 +1,5 @@
-import * as form from '../../../dist/form';
+import { Form } from '../../../dist/form';
+
+(() => {
+    const testForm = new Form('#test-form', document);
+})();

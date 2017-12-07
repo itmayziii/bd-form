@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["Form"] = factory();
+	else
+		root["Form"] = factory();
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -60,123 +70,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-class Form {
-
-    constructor(selector, fields, document) {
-        this._selector = selector;
-        this._fields = fields;
-        this._document = document;
-    }
-
-    onSubmit(callback) {
-        const formEl = this._findForm();
-        const submitButtonsEl = formEl.querySelector('[type="submit"]');
-
-        submitButtonsEl.addEventListener('click', (event) => {
-            event.preventDefault();
-        callback(formEl);
-    });
-    }
-
-    validate() {
-        let valid = true;
-        const formEl = this._findForm();
-
-        this._fields.forEach((field) => {
-            const fieldEl = this._findField(formEl, field.dataSelector);
-        const fieldErrorEl = this._document.querySelector(`[${field.dataSelector}-error]`);
-        if (!fieldEl || !fieldErrorEl) {
-            return;
-        }
-
-        const fieldValidity = fieldEl.checkValidity();
-        field.validationCallback(fieldValidity, fieldEl, fieldErrorEl);
-        if (!fieldValidity) {
-            valid = false; // If one field is invalid then the whoe form is invalid
-        }
-    });
-
-        return valid;
-    }
-
-    disable() {
-        const formEl = this._findForm();
-        this._fields.forEach((field) => {
-            const fieldEl = this._findField(formEl, field.dataSelector);
-        if (!fieldEl) {
-            return;
-        }
-
-        fieldEl.setAttribute('disabled', 'true');
-    });
-
-        const submitButtonsEl = formEl.querySelector('[type="submit"]');
-        submitButtonsEl.setAttribute('disabled', 'true');
-    }
-
-    enable() {
-        const formEl = this._findForm();
-        this._fields.forEach((field) => {
-            const fieldEl = this._findField(formEl, field.dataSelector);
-        if (!fieldEl) {
-            return;
-        }
-
-        fieldEl.removeAttribute('disabled');
-    });
-
-        const submitButtonsEl = formEl.querySelector('[type="submit"]');
-        submitButtonsEl.removeAttribute('disabled');
-    }
-
-    getValues() {
-        const formValues = {};
-
-        const formEl = this._findForm();
-        this._fields.forEach((field) => {
-            const fieldEl = this._findField(formEl, field.dataSelector);
-        if (!fieldEl) {
-            return;
-        }
-
-        const fieldName = fieldEl.getAttribute('name');
-        formValues[fieldName] = fieldEl.value || '';
-    });
-
-        return formValues;
-    }
-
-    _findForm() {
-        return this._document.querySelector(`[${this._selector}]`);
-    }
-
-    _findField(form, fieldSelector) {
-        const fieldEl = form.querySelectorAll(`[${fieldSelector}]`);
-
-        if (fieldEl.length !== 1) {
-            console.error(`Form: More than 1 or 0 fields are found with selector ${fieldSelector} inside of form: ${this._selector}`);
-            return false;
-        }
-
-        return fieldEl[0];
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Form;
+module.exports = __webpack_require__(1);
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__(2);
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form__ = __webpack_require__(2);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return __WEBPACK_IMPORTED_MODULE_0__form__["a"]; });
+
+// export * from './form-builder'; 
 
 
 /***/ }),
@@ -184,55 +97,143 @@ module.exports = __webpack_require__(2);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form__ = __webpack_require__(0);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return __WEBPACK_IMPORTED_MODULE_0__form__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_builder__ = __webpack_require__(3);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "FormBuilder", function() { return __WEBPACK_IMPORTED_MODULE_1__form_builder__["a"]; });
-
-
-console.log('blah');
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form__ = __webpack_require__(0);
-
-
-class FormBuilder {
-    constructor(document) {
-        this._document = document;
+class Form {
+    constructor(selector, document, fields = []) {
+        this.originalFormValues = {};
+        this.validFormInputs = [
+            'INPUT', 'SELECT', 'TEXTAREA'
+        ];
+        this.formInputStates = {
+            TOUCHED: 'bd-touched',
+            UNTOUCHED: 'bd-untouched',
+            PRISTINE: 'bd-pristine',
+            DIRTY: 'bd-dirty',
+            INVALID: 'bd-invalid',
+            VALID: 'bd-valid'
+        };
+        this.formStates = {
+            PRISTINE: 'bd-pristine',
+            DIRTY: 'bd-dirty',
+            INVALID: 'bd-invalid',
+            VALID: 'bd-valid',
+            SUBMITTED: 'bd-submitted'
+        };
+        this.selector = selector;
+        this.fields = fields;
+        this.document = document;
+        this.attachToDom();
+        this.setOriginalFormValues();
     }
-
-    build(formDataSelector, fields) {
-        const formEl = this._document.querySelectorAll(`[${formDataSelector}]`);
-        const validForm = this.validateFormExists(formEl);
-        if (!validForm) {
-            return false;
-        }
-
-        return new __WEBPACK_IMPORTED_MODULE_0__form__["a" /* Form */](formDataSelector, fields, this._document);
+    attachToDom() {
+        this.form = HTMLFormElement = this.document.querySelector(this.selector);
+        this.addInputListeners();
+        this.resetFormClasses();
+        this.resetInputClasses();
     }
-
-    validateFormExists(form, formDataSelector) {
-        if (form.length > 1) {
-            console.error(`FormBuilder: More than one form found with selector - ${formDataSelector}`);
-            return false;
+    resetFormClasses() {
+        this.form.classList.remove(this.formStates.DIRTY);
+        this.form.classList.remove(this.formStates.SUBMITTED);
+        if (this.form.checkValidity()) {
+            this.form.classList.remove(this.formStates.INVALID);
+            this.form.classList.add(this.formStates.VALID);
         }
-
-        if (form.length < 1) {
-            console.error(`FormBuilder: No form found with selector - ${formDataSelector}`);
-            return false;
+        else {
+            this.form.classList.remove(this.formStates.VALID);
+            this.form.classList.add(this.formStates.INVALID);
         }
-
-        return true;
+        this.form.classList.add(this.formStates.PRISTINE);
+    }
+    resetInputClasses() {
+        this.retrieveFormInputs().forEach((formInput) => {
+            const inputClassEl = this.getInputClassElement(formInput);
+            inputClassEl.classList.remove(this.formInputStates.DIRTY);
+            inputClassEl.classList.add(this.formInputStates.PRISTINE);
+            inputClassEl.classList.remove(this.formInputStates.TOUCHED);
+            inputClassEl.classList.add(this.formInputStates.UNTOUCHED);
+            if (formInput.checkValidity()) {
+                inputClassEl.classList.remove(this.formInputStates.INVALID);
+                inputClassEl.classList.add(this.formInputStates.VALID);
+            }
+            else {
+                inputClassEl.classList.remove(this.formInputStates.VALID);
+                inputClassEl.classList.add(this.formInputStates.INVALID);
+            }
+        });
+    }
+    addInputListeners() {
+        this.retrieveFormInputs().forEach((formInput) => {
+            formInput.addEventListener('blur', (event) => {
+                this.onInputBlur(event.currentTarget);
+            });
+            formInput.addEventListener('keyup', (event) => {
+                this.onInputChange(event.target);
+            });
+        });
+    }
+    onInputBlur(target) {
+        this.updateValidTouchedInputClasses(target);
+    }
+    onInputChange(target) {
+        this.updatePristineInputClasses(target);
+    }
+    updatePristineInputClasses(formInput) {
+        const inputName = formInput.getAttribute('name');
+        const inputClassEl = this.getInputClassElement(formInput);
+        if (this.originalFormValues[inputName] === formInput.value) {
+            inputClassEl.classList.remove(this.formInputStates.DIRTY);
+            inputClassEl.classList.add(this.formInputStates.PRISTINE);
+        }
+        else {
+            inputClassEl.classList.remove(this.formInputStates.PRISTINE);
+            inputClassEl.classList.add(this.formInputStates.DIRTY);
+        }
+    }
+    updateValidTouchedInputClasses(formInput) {
+        const inputClassEl = this.getInputClassElement(formInput);
+        inputClassEl.classList.remove(this.formInputStates.UNTOUCHED);
+        inputClassEl.classList.add(this.formInputStates.TOUCHED);
+        if (formInput.checkValidity()) {
+            inputClassEl.classList.remove(this.formInputStates.INVALID);
+            inputClassEl.classList.add(this.formInputStates.VALID);
+        }
+        else {
+            inputClassEl.classList.remove(this.formInputStates.VALID);
+            inputClassEl.classList.add(this.formInputStates.INVALID);
+        }
+    }
+    retrieveFormInputs() {
+        const formInputs = [];
+        const formControls = this.form.elements;
+        for (let i = 0; i < formControls.length; i++) {
+            const formControl = formControls[i];
+            if (this.validFormInputs.indexOf(formControl.tagName) === -1) {
+                continue;
+            }
+            formInputs.push(formControl);
+        }
+        return formInputs;
+    }
+    setOriginalFormValues() {
+        this.retrieveFormInputs().forEach((formInput) => {
+            const formInputName = formInput.getAttribute('name');
+            this.originalFormValues[formInputName] = formInput.value;
+        });
+    }
+    getInputClassElement(formInput) {
+        let inputClassEl;
+        if (formInput.parentElement.tagName !== 'FORM') {
+            inputClassEl = formInput.parentElement;
+        }
+        else {
+            inputClassEl = formInput;
+        }
+        return inputClassEl;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = FormBuilder;
+/* harmony export (immutable) */ __webpack_exports__["a"] = Form;
+
 
 
 /***/ })
 /******/ ]);
+});

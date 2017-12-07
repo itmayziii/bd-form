@@ -1,0 +1,65 @@
+.form {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+    width: 80%;
+
+    &.bd-valid {
+        background-color: darkgreen;
+    }
+
+    &.bd-invalid {
+        background-color: darkred;
+    }
+
+    &-control {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        flex: 0 1 100%;
+        flex-wrap: wrap;
+        margin: 15px 0;
+
+        label {
+            flex: 0 1 80%;
+        }
+
+        input {
+            flex: 0 1 80%;
+            font-size: 1.2rem;
+            padding: 10px;
+        }
+
+        &.bd-valid {
+            background-color: lawngreen;
+        }
+
+        .bd-valid {
+            background-color: lawngreen;
+        }
+
+        &.bd-invalid {
+            background-color: firebrick;
+        }
+
+        &.bd-dirty {
+            border: 5px solid dimgray;
+        }
+
+        &.bd-pristine {
+            border: 5px solid gold;
+        }
+
+        &.bd-touched {
+
+        }
+
+    }
+
+    &-buttons {
+        margin-top: 20px;
+    }
+
+}

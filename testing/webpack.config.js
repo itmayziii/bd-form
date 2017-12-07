@@ -19,7 +19,8 @@ const htmlPlugin = new HtmlWebpackPlugin({
 module.exports = {
     context: path.resolve(__dirname, 'assets'),
     entry: {
-        dev: ['./js/index.js', './scss/main.scss']
+        dev: ['./js/index.js', './scss/main.scss'],
+        polyfills: ['./js/polyfills.js']
     },
     output: {
         publicPath: '/',
