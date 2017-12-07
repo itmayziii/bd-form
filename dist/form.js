@@ -124,6 +124,23 @@ class Form {
         this.attachToDom();
         this.setOriginalFormValues();
     }
+    getValues() {
+        const formValues = {};
+        this.retrieveFormInputs().forEach((formInput) => {
+            formValues[formInput.getAttribute('name')] = formInput.value;
+        });
+        return this.getValues();
+    }
+    disable() {
+        this.retrieveFormInputs().forEach((formInput) => {
+            formInput.setAttribute('disabled', 'true');
+        });
+    }
+    enable() {
+        this.retrieveFormInputs().forEach((formInput) => {
+            formInput.removeAttribute('disabled');
+        });
+    }
     attachToDom() {
         this.form = HTMLFormElement = this.document.querySelector(this.selector);
         this.addInputListeners();

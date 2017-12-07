@@ -38,14 +38,35 @@ export class Form {
         this.setOriginalFormValues();
     }
 
-    private attachToDom() {
+    public getValues(): any {
+        const formValues: any = {};
+        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+            formValues[formInput.getAttribute('name')] = formInput.value;
+        });
+
+        return this.getValues();
+    }
+
+    public disable(): void {
+        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+            formInput.setAttribute('disabled', 'true');
+        });
+    }
+
+    public enable(): void {
+        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+            formInput.removeAttribute('disabled');
+        });
+    }
+
+    private attachToDom(): void {
         this.form = HTMLFormElement = this.document.querySelector(this.selector);
         this.addInputListeners();
         this.resetFormClasses();
         this.resetInputClasses();
     }
 
-    private resetFormClasses() {
+    private resetFormClasses(): void {
         this.form.classList.remove(this.formStates.DIRTY);
         this.form.classList.remove(this.formStates.SUBMITTED);
 
@@ -60,7 +81,7 @@ export class Form {
         this.form.classList.add(this.formStates.PRISTINE);
     }
 
-    private resetInputClasses() {
+    private resetInputClasses(): void {
         this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
             const inputClassEl = this.getInputClassElement(formInput);
 
@@ -80,7 +101,7 @@ export class Form {
         });
     }
 
-    private addInputListeners() {
+    private addInputListeners(): void {
         this.retrieveFormInputs().forEach((formInput: any) => {
             formInput.addEventListener('blur', (event: any) => {
                 this.onInputBlur(event.currentTarget);
@@ -92,16 +113,16 @@ export class Form {
         });
     }
 
-    private onInputBlur(target: HTMLInputElement) {
+    private onInputBlur(target: HTMLInputElement): void {
         this.updateValidTouchedInputClasses(target);
     }
 
-    private onInputChange(target: HTMLInputElement) {
+    private onInputChange(target: HTMLInputElement): void {
         this.updatePristineInputClasses(target);
         this.updateFormPristineClass();
     }
 
-    private updatePristineInputClasses(formInput: HTMLInputElement) {
+    private updatePristineInputClasses(formInput: HTMLInputElement): void {
         const inputName = formInput.getAttribute('name');
         const inputClassEl = this.getInputClassElement(formInput);
 
@@ -114,7 +135,7 @@ export class Form {
         }
     }
 
-    private updateFormPristineClass() {
+    private updateFormPristineClass(): void {
         const nonPristineInput = this.retrieveFormInputs().find((formInput: HTMLInputElement) => {
             const formInputName = formInput.getAttribute('name');
             return formInput.value !== this.originalFormValues[formInputName];
@@ -129,7 +150,7 @@ export class Form {
         }
     }
 
-    private updateValidTouchedInputClasses(formInput: HTMLInputElement) {
+    private updateValidTouchedInputClasses(formInput: HTMLInputElement): void {
         const inputClassEl = this.getInputClassElement(formInput);
 
         inputClassEl.classList.remove(this.formInputStates.UNTOUCHED);
@@ -160,14 +181,14 @@ export class Form {
         return formInputs;
     }
 
-    private setOriginalFormValues() {
+    private setOriginalFormValues(): void {
         this.retrieveFormInputs().forEach((formInput) => {
             const formInputName = formInput.getAttribute('name');
             this.originalFormValues[formInputName] = formInput.value;
         });
     }
 
-    private getInputClassElement(formInput: HTMLInputElement) {
+    private getInputClassElement(formInput: HTMLInputElement): Element {
         let inputClassEl;
 
         if (formInput.parentElement.tagName !== 'FORM') {
@@ -210,20 +231,7 @@ export class Form {
     //     return valid;
     // }
     //
-    // public disable() {
-    //     const formEl = this.findForm();
-    //     this.fields.forEach((field) => {
-    //         const fieldEl = this.findField(formEl, field.dataSelector);
-    //         if (!fieldEl) {
-    //             return;
-    //         }
-    //
-    //         fieldEl.setAttribute('disabled', 'true');
-    //     });
-    //
-    //     const submitButtonsEl = formEl.querySelector('[type="submit"]');
-    //     submitButtonsEl.setAttribute('disabled', 'true');
-    // }
+
     //
     // public enable() {
     //     const formEl = this.findForm();
@@ -240,22 +248,7 @@ export class Form {
     //     submitButtonsEl.removeAttribute('disabled');
     // }
     //
-    // public getValues() {
-    //     const formValues: { [index: string]: string } = {};
-    //
-    //     const formEl = this.findForm();
-    //     this.fields.forEach((field) => {
-    //         const fieldEl = this.findField(formEl, field.dataSelector);
-    //         if (!fieldEl) {
-    //             return;
-    //         }
-    //
-    //         const fieldName: string = fieldEl.getAttribute('name');
-    //         formValues[fieldName] = fieldEl.value || '';
-    //     });
-    //
-    //     return formValues;
-    // }
+
     //
     // private findForm() {
     //     return this.document.querySelector(`[${this.selector}]`);
