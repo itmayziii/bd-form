@@ -98,6 +98,7 @@ export class Form {
 
     private onInputChange(target: HTMLInputElement) {
         this.updatePristineInputClasses(target);
+        this.updateFormPristineClass();
     }
 
     private updatePristineInputClasses(formInput: HTMLInputElement) {
@@ -110,6 +111,21 @@ export class Form {
         } else {
             inputClassEl.classList.remove(this.formInputStates.PRISTINE);
             inputClassEl.classList.add(this.formInputStates.DIRTY);
+        }
+    }
+
+    private updateFormPristineClass() {
+        const nonPristineInput = this.retrieveFormInputs().find((formInput: HTMLInputElement) => {
+            const formInputName = formInput.getAttribute('name');
+            return formInput.value !== this.originalFormValues[formInputName];
+        });
+
+        if (nonPristineInput) {
+            this.form.classList.remove(this.formStates.PRISTINE);
+            this.form.classList.add(this.formStates.DIRTY);
+        } else {
+            this.form.classList.remove(this.formStates.DIRTY);
+            this.form.classList.add(this.formStates.PRISTINE);
         }
     }
 

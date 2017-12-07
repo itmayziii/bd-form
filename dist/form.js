@@ -175,6 +175,7 @@ class Form {
     }
     onInputChange(target) {
         this.updatePristineInputClasses(target);
+        this.updateFormPristineClass();
     }
     updatePristineInputClasses(formInput) {
         const inputName = formInput.getAttribute('name');
@@ -186,6 +187,20 @@ class Form {
         else {
             inputClassEl.classList.remove(this.formInputStates.PRISTINE);
             inputClassEl.classList.add(this.formInputStates.DIRTY);
+        }
+    }
+    updateFormPristineClass() {
+        const nonPristineInput = this.retrieveFormInputs().find((formInput) => {
+            const formInputName = formInput.getAttribute('name');
+            return formInput.value !== this.originalFormValues[formInputName];
+        });
+        if (nonPristineInput) {
+            this.form.classList.remove(this.formStates.PRISTINE);
+            this.form.classList.add(this.formStates.DIRTY);
+        }
+        else {
+            this.form.classList.remove(this.formStates.DIRTY);
+            this.form.classList.add(this.formStates.PRISTINE);
         }
     }
     updateValidTouchedInputClasses(formInput) {
