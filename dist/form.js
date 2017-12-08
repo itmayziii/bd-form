@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["Form"] = factory();
+		exports["BD-Form"] = factory();
 	else
-		root["Form"] = factory();
+		root["BD-Form"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -98,160 +98,162 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 class Form {
-    constructor(selector, document, fields = []) {
-        this.originalFormValues = {};
-        this.validFormInputs = [
+    constructor(formSelector, document, classPrefix = 'bd') {
+        this._originalFormValues = {};
+        this._validFormInputs = [
             'INPUT', 'SELECT', 'TEXTAREA'
         ];
-        this.formInputStates = {
-            TOUCHED: 'bd-touched',
-            UNTOUCHED: 'bd-untouched',
-            PRISTINE: 'bd-pristine',
-            DIRTY: 'bd-dirty',
-            INVALID: 'bd-invalid',
-            VALID: 'bd-valid'
+        this._formInputStates = {
+            TOUCHED: '-touched',
+            UNTOUCHED: '-untouched',
+            PRISTINE: '-pristine',
+            DIRTY: '-dirty',
+            INVALID: '-invalid',
+            VALID: '-valid'
         };
-        this.formStates = {
-            PRISTINE: 'bd-pristine',
-            DIRTY: 'bd-dirty',
-            INVALID: 'bd-invalid',
-            VALID: 'bd-valid',
-            SUBMITTED: 'bd-submitted'
+        this._formStates = {
+            PRISTINE: '-pristine',
+            DIRTY: '-dirty',
+            INVALID: '-invalid',
+            VALID: '-valid',
+            SUBMITTED: '-submitted'
         };
-        this.selector = selector;
-        this.fields = fields;
-        this.document = document;
-        this.attachToDom();
-        this.setOriginalFormValues();
+        this._document = document;
+        this._setClassSelectors(classPrefix);
+        this._attachToDom(formSelector);
+        this._setOriginalFormValues();
     }
     getValues() {
         const formValues = {};
-        this.retrieveFormInputs().forEach((formInput) => {
+        this._retrieveFormInputs().forEach((formInput) => {
             formValues[formInput.getAttribute('name')] = formInput.value;
         });
         return this.getValues();
     }
     disable() {
-        this.retrieveFormInputs().forEach((formInput) => {
+        this._retrieveFormInputs().forEach((formInput) => {
             formInput.setAttribute('disabled', 'true');
         });
     }
     enable() {
-        this.retrieveFormInputs().forEach((formInput) => {
+        this._retrieveFormInputs().forEach((formInput) => {
             formInput.removeAttribute('disabled');
         });
     }
-    attachToDom() {
-        this.form = HTMLFormElement = this.document.querySelector(this.selector);
-        this.addInputListeners();
-        this.resetFormClasses();
-        this.resetInputClasses();
+    isValid() {
+        return this._form.checkValidity();
     }
-    resetFormClasses() {
-        this.form.classList.remove(this.formStates.DIRTY);
-        this.form.classList.remove(this.formStates.SUBMITTED);
-        if (this.form.checkValidity()) {
-            this.form.classList.remove(this.formStates.INVALID);
-            this.form.classList.add(this.formStates.VALID);
+    _attachToDom(formSelector) {
+        this._form = HTMLFormElement = this._document.querySelector(formSelector);
+        this._addInputListeners();
+        this._resetFormClasses();
+        this._resetInputClasses();
+    }
+    _resetFormClasses() {
+        this._form.classList.remove(this._formStates.DIRTY);
+        this._form.classList.remove(this._formStates.SUBMITTED);
+        if (this._form.checkValidity()) {
+            this._form.classList.remove(this._formStates.INVALID);
+            this._form.classList.add(this._formStates.VALID);
         }
         else {
-            this.form.classList.remove(this.formStates.VALID);
-            this.form.classList.add(this.formStates.INVALID);
+            this._form.classList.remove(this._formStates.VALID);
+            this._form.classList.add(this._formStates.INVALID);
         }
-        this.form.classList.add(this.formStates.PRISTINE);
+        this._form.classList.add(this._formStates.PRISTINE);
     }
-    resetInputClasses() {
-        this.retrieveFormInputs().forEach((formInput) => {
-            const inputClassEl = this.getInputClassElement(formInput);
-            inputClassEl.classList.remove(this.formInputStates.DIRTY);
-            inputClassEl.classList.add(this.formInputStates.PRISTINE);
-            inputClassEl.classList.remove(this.formInputStates.TOUCHED);
-            inputClassEl.classList.add(this.formInputStates.UNTOUCHED);
+    _resetInputClasses() {
+        this._retrieveFormInputs().forEach((formInput) => {
+            const inputClassEl = this._getInputClassElement(formInput);
+            inputClassEl.classList.remove(this._formInputStates.DIRTY);
+            inputClassEl.classList.add(this._formInputStates.PRISTINE);
+            inputClassEl.classList.remove(this._formInputStates.TOUCHED);
+            inputClassEl.classList.add(this._formInputStates.UNTOUCHED);
             if (formInput.checkValidity()) {
-                inputClassEl.classList.remove(this.formInputStates.INVALID);
-                inputClassEl.classList.add(this.formInputStates.VALID);
+                inputClassEl.classList.remove(this._formInputStates.INVALID);
+                inputClassEl.classList.add(this._formInputStates.VALID);
             }
             else {
-                inputClassEl.classList.remove(this.formInputStates.VALID);
-                inputClassEl.classList.add(this.formInputStates.INVALID);
+                inputClassEl.classList.remove(this._formInputStates.VALID);
+                inputClassEl.classList.add(this._formInputStates.INVALID);
             }
         });
     }
-    addInputListeners() {
-        this.retrieveFormInputs().forEach((formInput) => {
+    _addInputListeners() {
+        this._retrieveFormInputs().forEach((formInput) => {
             formInput.addEventListener('blur', (event) => {
-                this.onInputBlur(event.currentTarget);
+                this._onInputBlur(event.currentTarget);
             });
             formInput.addEventListener('keyup', (event) => {
-                this.onInputChange(event.target);
+                this._onInputChange(event.target);
             });
         });
     }
-    onInputBlur(target) {
-        this.updateValidTouchedInputClasses(target);
+    _onInputBlur(target) {
+        this._updateValidTouchedInputClasses(target);
     }
-    onInputChange(target) {
-        this.updatePristineInputClasses(target);
-        this.updateFormPristineClass();
+    _onInputChange(target) {
+        this._updatePristineInputClasses(target);
+        this._updateFormPristineClass();
     }
-    updatePristineInputClasses(formInput) {
+    _updatePristineInputClasses(formInput) {
         const inputName = formInput.getAttribute('name');
-        const inputClassEl = this.getInputClassElement(formInput);
-        if (this.originalFormValues[inputName] === formInput.value) {
-            inputClassEl.classList.remove(this.formInputStates.DIRTY);
-            inputClassEl.classList.add(this.formInputStates.PRISTINE);
+        const inputClassEl = this._getInputClassElement(formInput);
+        if (this._originalFormValues[inputName] === formInput.value) {
+            inputClassEl.classList.remove(this._formInputStates.DIRTY);
+            inputClassEl.classList.add(this._formInputStates.PRISTINE);
         }
         else {
-            inputClassEl.classList.remove(this.formInputStates.PRISTINE);
-            inputClassEl.classList.add(this.formInputStates.DIRTY);
+            inputClassEl.classList.remove(this._formInputStates.PRISTINE);
+            inputClassEl.classList.add(this._formInputStates.DIRTY);
         }
     }
-    updateFormPristineClass() {
-        const nonPristineInput = this.retrieveFormInputs().find((formInput) => {
+    _updateFormPristineClass() {
+        const nonPristineInput = this._retrieveFormInputs().find((formInput) => {
             const formInputName = formInput.getAttribute('name');
-            return formInput.value !== this.originalFormValues[formInputName];
+            return formInput.value !== this._originalFormValues[formInputName];
         });
         if (nonPristineInput) {
-            this.form.classList.remove(this.formStates.PRISTINE);
-            this.form.classList.add(this.formStates.DIRTY);
+            this._form.classList.remove(this._formStates.PRISTINE);
+            this._form.classList.add(this._formStates.DIRTY);
         }
         else {
-            this.form.classList.remove(this.formStates.DIRTY);
-            this.form.classList.add(this.formStates.PRISTINE);
+            this._form.classList.remove(this._formStates.DIRTY);
+            this._form.classList.add(this._formStates.PRISTINE);
         }
     }
-    updateValidTouchedInputClasses(formInput) {
-        const inputClassEl = this.getInputClassElement(formInput);
-        inputClassEl.classList.remove(this.formInputStates.UNTOUCHED);
-        inputClassEl.classList.add(this.formInputStates.TOUCHED);
+    _updateValidTouchedInputClasses(formInput) {
+        const inputClassEl = this._getInputClassElement(formInput);
+        inputClassEl.classList.remove(this._formInputStates.UNTOUCHED);
+        inputClassEl.classList.add(this._formInputStates.TOUCHED);
         if (formInput.checkValidity()) {
-            inputClassEl.classList.remove(this.formInputStates.INVALID);
-            inputClassEl.classList.add(this.formInputStates.VALID);
+            inputClassEl.classList.remove(this._formInputStates.INVALID);
+            inputClassEl.classList.add(this._formInputStates.VALID);
         }
         else {
-            inputClassEl.classList.remove(this.formInputStates.VALID);
-            inputClassEl.classList.add(this.formInputStates.INVALID);
+            inputClassEl.classList.remove(this._formInputStates.VALID);
+            inputClassEl.classList.add(this._formInputStates.INVALID);
         }
     }
-    retrieveFormInputs() {
+    _retrieveFormInputs() {
         const formInputs = [];
-        const formControls = this.form.elements;
+        const formControls = this._form.elements;
         for (let i = 0; i < formControls.length; i++) {
             const formControl = formControls[i];
-            if (this.validFormInputs.indexOf(formControl.tagName) === -1) {
+            if (this._validFormInputs.indexOf(formControl.tagName) === -1) {
                 continue;
             }
             formInputs.push(formControl);
         }
         return formInputs;
     }
-    setOriginalFormValues() {
-        this.retrieveFormInputs().forEach((formInput) => {
+    _setOriginalFormValues() {
+        this._retrieveFormInputs().forEach((formInput) => {
             const formInputName = formInput.getAttribute('name');
-            this.originalFormValues[formInputName] = formInput.value;
+            this._originalFormValues[formInputName] = formInput.value;
         });
     }
-    getInputClassElement(formInput) {
+    _getInputClassElement(formInput) {
         let inputClassEl;
         if (formInput.parentElement.tagName !== 'FORM') {
             inputClassEl = formInput.parentElement;
@@ -260,6 +262,18 @@ class Form {
             inputClassEl = formInput;
         }
         return inputClassEl;
+    }
+    _setClassSelectors(classPrefix) {
+        for (let inputState in this._formInputStates) {
+            if (this._formInputStates.hasOwnProperty(inputState)) {
+                this._formInputStates[inputState] = `${classPrefix}${this._formInputStates[inputState]}`;
+            }
+        }
+        for (let formState in this._formStates) {
+            if (this._formStates.hasOwnProperty(formState)) {
+                this._formStates[formState] = `${classPrefix}${this._formStates[formState]}`;
+            }
+        }
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Form;

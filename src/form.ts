@@ -1,46 +1,41 @@
-import { FieldInterface } from "./field-interface";
-
 export class Form {
-    private selector: string;
-    private fields: FieldInterface[];
-    private document: any;
-    private form: HTMLFormElement;
-    private originalFormValues: any = {};
+    private _document: any;
+    private _form: HTMLFormElement;
+    private _originalFormValues: any = {};
 
-    private readonly validFormInputs: string[] = [
+    private readonly _validFormInputs: string[] = [
         'INPUT', 'SELECT', 'TEXTAREA'
     ];
 
-    private readonly formInputStates: any = {
-        TOUCHED: 'bd-touched',
-        UNTOUCHED: 'bd-untouched',
-        PRISTINE: 'bd-pristine',
-        DIRTY: 'bd-dirty',
-        INVALID: 'bd-invalid',
-        VALID: 'bd-valid'
+    private _formInputStates: any = {
+        TOUCHED: '-touched',
+        UNTOUCHED: '-untouched',
+        PRISTINE: '-pristine',
+        DIRTY: '-dirty',
+        INVALID: '-invalid',
+        VALID: '-valid'
     };
 
-    private readonly formStates: any = {
-        PRISTINE: 'bd-pristine',
-        DIRTY: 'bd-dirty',
-        INVALID: 'bd-invalid',
-        VALID: 'bd-valid',
-        SUBMITTED: 'bd-submitted'
+    private _formStates: any = {
+        PRISTINE: '-pristine',
+        DIRTY: '-dirty',
+        INVALID: '-invalid',
+        VALID: '-valid',
+        SUBMITTED: '-submitted'
     };
 
 
-    public constructor(selector: string, document: any, fields: FieldInterface[] = []) {
-        this.selector = selector;
-        this.fields = fields;
-        this.document = document;
+    public constructor(formSelector: string, document: any, classPrefix: string = 'bd') {
+        this._document = document;
 
-        this.attachToDom();
-        this.setOriginalFormValues();
+        this._setClassSelectors(classPrefix);
+        this._attachToDom(formSelector);
+        this._setOriginalFormValues();
     }
 
     public getValues(): any {
         const formValues: any = {};
-        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+        this._retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
             formValues[formInput.getAttribute('name')] = formInput.value;
         });
 
@@ -48,130 +43,134 @@ export class Form {
     }
 
     public disable(): void {
-        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+        this._retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
             formInput.setAttribute('disabled', 'true');
         });
     }
 
     public enable(): void {
-        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+        this._retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
             formInput.removeAttribute('disabled');
         });
     }
 
-    private attachToDom(): void {
-        this.form = HTMLFormElement = this.document.querySelector(this.selector);
-        this.addInputListeners();
-        this.resetFormClasses();
-        this.resetInputClasses();
+    public isValid(): boolean {
+        return this._form.checkValidity();
     }
 
-    private resetFormClasses(): void {
-        this.form.classList.remove(this.formStates.DIRTY);
-        this.form.classList.remove(this.formStates.SUBMITTED);
+    private _attachToDom(formSelector: string): void {
+        this._form = HTMLFormElement = this._document.querySelector(formSelector);
+        this._addInputListeners();
+        this._resetFormClasses();
+        this._resetInputClasses();
+    }
 
-        if (this.form.checkValidity()) {
-            this.form.classList.remove(this.formStates.INVALID);
-            this.form.classList.add(this.formStates.VALID);
+    private _resetFormClasses(): void {
+        this._form.classList.remove(this._formStates.DIRTY);
+        this._form.classList.remove(this._formStates.SUBMITTED);
+
+        if (this._form.checkValidity()) {
+            this._form.classList.remove(this._formStates.INVALID);
+            this._form.classList.add(this._formStates.VALID);
         } else {
-            this.form.classList.remove(this.formStates.VALID);
-            this.form.classList.add(this.formStates.INVALID);
+            this._form.classList.remove(this._formStates.VALID);
+            this._form.classList.add(this._formStates.INVALID);
         }
 
-        this.form.classList.add(this.formStates.PRISTINE);
+        this._form.classList.add(this._formStates.PRISTINE);
     }
 
-    private resetInputClasses(): void {
-        this.retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
-            const inputClassEl = this.getInputClassElement(formInput);
+    private _resetInputClasses(): void {
+        this._retrieveFormInputs().forEach((formInput: HTMLInputElement) => {
+            const inputClassEl = this._getInputClassElement(formInput);
 
-            inputClassEl.classList.remove(this.formInputStates.DIRTY);
-            inputClassEl.classList.add(this.formInputStates.PRISTINE);
+            inputClassEl.classList.remove(this._formInputStates.DIRTY);
+            inputClassEl.classList.add(this._formInputStates.PRISTINE);
 
-            inputClassEl.classList.remove(this.formInputStates.TOUCHED);
-            inputClassEl.classList.add(this.formInputStates.UNTOUCHED);
+            inputClassEl.classList.remove(this._formInputStates.TOUCHED);
+            inputClassEl.classList.add(this._formInputStates.UNTOUCHED);
 
             if (formInput.checkValidity()) {
-                inputClassEl.classList.remove(this.formInputStates.INVALID);
-                inputClassEl.classList.add(this.formInputStates.VALID);
+                inputClassEl.classList.remove(this._formInputStates.INVALID);
+                inputClassEl.classList.add(this._formInputStates.VALID);
             } else {
-                inputClassEl.classList.remove(this.formInputStates.VALID);
-                inputClassEl.classList.add(this.formInputStates.INVALID);
+                inputClassEl.classList.remove(this._formInputStates.VALID);
+                inputClassEl.classList.add(this._formInputStates.INVALID);
             }
         });
     }
 
-    private addInputListeners(): void {
-        this.retrieveFormInputs().forEach((formInput: any) => {
+    private _addInputListeners(): void {
+        this._retrieveFormInputs().forEach((formInput: any) => {
             formInput.addEventListener('blur', (event: any) => {
-                this.onInputBlur(event.currentTarget);
+                this._onInputBlur(event.currentTarget);
             });
 
             formInput.addEventListener('keyup', (event: any) => {
-                this.onInputChange(event.target);
+                this._onInputChange(event.target);
             });
         });
     }
 
-    private onInputBlur(target: HTMLInputElement): void {
-        this.updateValidTouchedInputClasses(target);
+    private _onInputBlur(target: HTMLInputElement): void {
+        this._updateValidTouchedInputClasses(target);
     }
 
-    private onInputChange(target: HTMLInputElement): void {
-        this.updatePristineInputClasses(target);
-        this.updateFormPristineClass();
+    private _onInputChange(target: HTMLInputElement): void {
+        this._updatePristineInputClasses(target);
+        this._updateFormPristineClass();
     }
 
-    private updatePristineInputClasses(formInput: HTMLInputElement): void {
+    private _updatePristineInputClasses(formInput: HTMLInputElement): void {
         const inputName = formInput.getAttribute('name');
-        const inputClassEl = this.getInputClassElement(formInput);
+        const inputClassEl = this._getInputClassElement(formInput);
 
-        if (this.originalFormValues[inputName] === formInput.value) {
-            inputClassEl.classList.remove(this.formInputStates.DIRTY);
-            inputClassEl.classList.add(this.formInputStates.PRISTINE);
+        if (this._originalFormValues[inputName] === formInput.value) {
+            inputClassEl.classList.remove(this._formInputStates.DIRTY);
+            inputClassEl.classList.add(this._formInputStates.PRISTINE);
         } else {
-            inputClassEl.classList.remove(this.formInputStates.PRISTINE);
-            inputClassEl.classList.add(this.formInputStates.DIRTY);
+            inputClassEl.classList.remove(this._formInputStates.PRISTINE);
+            inputClassEl.classList.add(this._formInputStates.DIRTY);
         }
     }
 
-    private updateFormPristineClass(): void {
-        const nonPristineInput = this.retrieveFormInputs().find((formInput: HTMLInputElement) => {
+    private _updateFormPristineClass(): void {
+        const nonPristineInput = this._retrieveFormInputs().find((formInput: HTMLInputElement) => {
             const formInputName = formInput.getAttribute('name');
-            return formInput.value !== this.originalFormValues[formInputName];
+            return formInput.value !== this._originalFormValues[formInputName];
         });
 
         if (nonPristineInput) {
-            this.form.classList.remove(this.formStates.PRISTINE);
-            this.form.classList.add(this.formStates.DIRTY);
+            this._form.classList.remove(this._formStates.PRISTINE);
+            this._form.classList.add(this._formStates.DIRTY);
         } else {
-            this.form.classList.remove(this.formStates.DIRTY);
-            this.form.classList.add(this.formStates.PRISTINE);
+            this._form.classList.remove(this._formStates.DIRTY);
+            this._form.classList.add(this._formStates.PRISTINE);
         }
     }
 
-    private updateValidTouchedInputClasses(formInput: HTMLInputElement): void {
-        const inputClassEl = this.getInputClassElement(formInput);
+    private _updateValidTouchedInputClasses(formInput: HTMLInputElement): void {
+        const inputClassEl = this._getInputClassElement(formInput);
 
-        inputClassEl.classList.remove(this.formInputStates.UNTOUCHED);
-        inputClassEl.classList.add(this.formInputStates.TOUCHED);
+        inputClassEl.classList.remove(this._formInputStates.UNTOUCHED);
+        inputClassEl.classList.add(this._formInputStates.TOUCHED);
 
         if (formInput.checkValidity()) {
-            inputClassEl.classList.remove(this.formInputStates.INVALID);
-            inputClassEl.classList.add(this.formInputStates.VALID);
+            inputClassEl.classList.remove(this._formInputStates.INVALID);
+            inputClassEl.classList.add(this._formInputStates.VALID);
         } else {
-            inputClassEl.classList.remove(this.formInputStates.VALID);
-            inputClassEl.classList.add(this.formInputStates.INVALID);
+            inputClassEl.classList.remove(this._formInputStates.VALID);
+            inputClassEl.classList.add(this._formInputStates.INVALID);
         }
     }
 
-    private retrieveFormInputs(): HTMLInputElement[] {
+    private _retrieveFormInputs(): HTMLInputElement[] {
         const formInputs: HTMLInputElement[] = [];
-        const formControls = this.form.elements;
+        const formControls = this._form.elements;
 
         for (let i = 0; i < formControls.length; i++) {
             const formControl: HTMLInputElement = <HTMLInputElement>formControls[i];
-            if (this.validFormInputs.indexOf(formControl.tagName) === -1) {
+            if (this._validFormInputs.indexOf(formControl.tagName) === -1) {
                 continue;
             }
 
@@ -181,14 +180,14 @@ export class Form {
         return formInputs;
     }
 
-    private setOriginalFormValues(): void {
-        this.retrieveFormInputs().forEach((formInput) => {
+    private _setOriginalFormValues(): void {
+        this._retrieveFormInputs().forEach((formInput) => {
             const formInputName = formInput.getAttribute('name');
-            this.originalFormValues[formInputName] = formInput.value;
+            this._originalFormValues[formInputName] = formInput.value;
         });
     }
 
-    private getInputClassElement(formInput: HTMLInputElement): Element {
+    private _getInputClassElement(formInput: HTMLInputElement): Element {
         let inputClassEl;
 
         if (formInput.parentElement.tagName !== 'FORM') {
@@ -200,68 +199,17 @@ export class Form {
         return inputClassEl;
     }
 
-    // public onSubmit(callback: any) {
-    //     const formEl = this.findForm();
-    //     const submitButtonsEl = formEl.querySelector('[type="submit"]');
-    //
-    //     submitButtonsEl.addEventListener('click', (event: Event) => {
-    //         event.preventDefault();
-    //         callback(formEl);
-    //     });
-    // }
-    //
-    // public validate() {
-    //     let valid = true;
-    //     const formEl = this.findForm();
-    //
-    //     this.fields.forEach((field) => {
-    //         const fieldEl = this.findField(formEl, field.dataSelector);
-    //         const fieldErrorEl = this.document.querySelector(`[${field.dataSelector}-error]`);
-    //         if (!fieldEl || !fieldErrorEl) {
-    //             return;
-    //         }
-    //
-    //         const fieldValidity = fieldEl.checkValidity();
-    //         field.validationCallback(fieldValidity, fieldEl, fieldErrorEl);
-    //         if (!fieldValidity) {
-    //             valid = false; // If one field is invalid then the whoe form is invalid
-    //         }
-    //     });
-    //
-    //     return valid;
-    // }
-    //
+    private _setClassSelectors(classPrefix: string) {
+        for (let inputState in this._formInputStates) {
+            if (this._formInputStates.hasOwnProperty(inputState)) {
+                this._formInputStates[inputState] = `${classPrefix}${this._formInputStates[inputState]}`;
+            }
+        }
 
-    //
-    // public enable() {
-    //     const formEl = this.findForm();
-    //     this.fields.forEach((field) => {
-    //         const fieldEl = this.findField(formEl, field.dataSelector);
-    //         if (!fieldEl) {
-    //             return;
-    //         }
-    //
-    //         fieldEl.removeAttribute('disabled');
-    //     });
-    //
-    //     const submitButtonsEl = formEl.querySelector('[type="submit"]');
-    //     submitButtonsEl.removeAttribute('disabled');
-    // }
-    //
-
-    //
-    // private findForm() {
-    //     return this.document.querySelector(`[${this.selector}]`);
-    // }
-    //
-    // private findField(form: HTMLFormElement, fieldSelector: string): any {
-    //     const fieldEl = form.querySelectorAll(`[${fieldSelector}]`);
-    //
-    //     if (fieldEl.length !== 1) {
-    //         console.error(`Form: More than 1 or 0 fields are found with selector ${fieldSelector} inside of form: ${this.selector}`);
-    //         return;
-    //     }
-    //
-    //     return fieldEl[0];
-    // }
+        for (let formState in this._formStates) {
+            if (this._formStates.hasOwnProperty(formState)) {
+                this._formStates[formState] = `${classPrefix}${this._formStates[formState]}`;
+            }
+        }
+    }
 }
