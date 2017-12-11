@@ -1,73 +1,50 @@
 .form {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: auto;
-    width: 80%;
-
-    &.bd-valid {
-        background-color: darkgreen;
-    }
 
     &.bd-invalid {
-        background-color: darkred;
+        border: 5px solid firebrick;
     }
 
-    &.bd-dirty {
-        border: 5px solid dimgray;
+    &.bd-valid {
+        border: 5px solid darkgreen;
+    }
+}
+
+input[type="text"].form-control {
+    &.bd-invalid {
+        border-left: 5px solid firebrick;
+    }
+
+    &.bd-valid {
+        border-left: 5px solid darkgreen;
     }
 
     &.bd-pristine {
-        border: 5px solid gold;
+        background-color: palegoldenrod;
     }
 
-    &-control {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        flex: 0 1 100%;
-        flex-wrap: wrap;
-        margin: 15px 0;
-
-        label {
-            flex: 0 1 80%;
-        }
-
-        input {
-            flex: 0 1 80%;
-            font-size: 1.2rem;
-            padding: 10px;
-        }
-
-        &.bd-valid {
-            background-color: lawngreen;
-        }
-
-        .bd-valid {
-            background-color: lawngreen;
-        }
-
-        &.bd-invalid {
-            background-color: firebrick;
-        }
-
-        &.bd-dirty {
-            border: 5px solid dimgray;
-        }
-
-        &.bd-pristine {
-            border: 5px solid gold;
-        }
-
-        &.bd-touched {
-
-        }
-
+    &.bd-dirty {
+        background-color: dimgrey;
     }
 
-    &-buttons {
-        margin-top: 20px;
+    &.bd-untouched {
+        border-right: 5px solid blueviolet;
     }
 
+    &.bd-touched {
+        border-right: 5px solid black;
+    }
+}
+
+.form-group {
+    &.bd-invalid {
+        h5 {
+            color: red;
+        }
+    }
+
+    &.bd-valid {
+        h5 {
+            color: green;
+        }
+    }
 }

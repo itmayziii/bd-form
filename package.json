@@ -1,5 +1,5 @@
 {
-  "name": "form",
+  "name": "bd-form",
   "version": "0.0.1",
   "description": "Helps perform complex data validation on the front end",
   "main": "index.js",

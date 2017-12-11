@@ -15,7 +15,6 @@ const htmlPlugin = new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'webpack-templates/index.html')
 });
 
-
 module.exports = {
     context: path.resolve(__dirname, 'assets'),
     entry: {

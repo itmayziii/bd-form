@@ -28,7 +28,7 @@ export class Form {
     public constructor(formSelector: string, document: any, classPrefix: string = 'bd') {
         this._document = document;
 
-        this._setClassSelectors(classPrefix);
+        this._setClassPrefix(classPrefix);
         this._attachToDom(formSelector);
         this._setOriginalFormValues();
     }
@@ -39,7 +39,7 @@ export class Form {
             formValues[formInput.getAttribute('name')] = formInput.value;
         });
 
-        return this.getValues();
+        return formValues;
     }
 
     public disable(): void {
@@ -106,9 +106,17 @@ export class Form {
                 this._onInputBlur(event.currentTarget);
             });
 
-            formInput.addEventListener('keyup', (event: any) => {
-                this._onInputChange(event.target);
-            });
+            const formInputType = formInput.getAttribute('type');
+            if (formInputType === 'checkbox' || formInputType === 'radio') {
+                formInput.addEventListener('change', (event: any) => {
+                    this._onInputChange(event.target);
+                });
+            } else {
+                formInput.addEventListener('keyup', (event: any) => {
+                    this._onInputChange(event.target);
+                });
+            }
+
         });
     }
 
@@ -122,10 +130,11 @@ export class Form {
     }
 
     private _updatePristineInputClasses(formInput: HTMLInputElement): void {
+        const formInputValue = this.getInputValue(formInput);
         const inputName = formInput.getAttribute('name');
         const inputClassEl = this._getInputClassElement(formInput);
 
-        if (this._originalFormValues[inputName] === formInput.value) {
+        if (this._originalFormValues[inputName] === formInputValue) {
             inputClassEl.classList.remove(this._formInputStates.DIRTY);
             inputClassEl.classList.add(this._formInputStates.PRISTINE);
         } else {
@@ -136,8 +145,9 @@ export class Form {
 
     private _updateFormPristineClass(): void {
         const nonPristineInput = this._retrieveFormInputs().find((formInput: HTMLInputElement) => {
+            const formInputValue = this.getInputValue(formInput);
             const formInputName = formInput.getAttribute('name');
-            return formInput.value !== this._originalFormValues[formInputName];
+            return formInputValue !== this._originalFormValues[formInputName];
         });
 
         if (nonPristineInput) {
@@ -183,10 +193,11 @@ export class Form {
     private _setOriginalFormValues(): void {
         this._retrieveFormInputs().forEach((formInput) => {
             const formInputName = formInput.getAttribute('name');
-            this._originalFormValues[formInputName] = formInput.value;
+            this._originalFormValues[formInputName] = this.getInputValue(formInput);
         });
     }
 
+    // noinspection JSMethodCanBeStatic
     private _getInputClassElement(formInput: HTMLInputElement): Element {
         let inputClassEl;
 
@@ -199,7 +210,19 @@ export class Form {
         return inputClassEl;
     }
 
-    private _setClassSelectors(classPrefix: string) {
+    // noinspection JSMethodCanBeStatic
+    private getInputValue(input: HTMLInputElement) {
+        const inputType = input.getAttribute('type');
+
+        let inputValue = input.value;
+        if ((inputType === 'checkbox' || inputType === 'radio') && input.checked === true) {
+            inputValue = (input.checked) ? 'on' : 'off';
+        }
+
+        return inputValue;
+    }
+
+    private _setClassPrefix(classPrefix: string) {
         for (let inputState in this._formInputStates) {
             if (this._formInputStates.hasOwnProperty(inputState)) {
                 this._formInputStates[inputState] = `${classPrefix}${this._formInputStates[inputState]}`;
