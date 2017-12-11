@@ -1,10 +1,19 @@
-import { BdFormBuilder, GroupValidators } from '../../../dist/form';
+import { BdFormBuilder, GroupValidators, ControlValidators } from '../../../dist/form';
 
 (() => {
     const fb = new BdFormBuilder(document);
     const testForm = fb.group('test-form', {
-        "first-name": "",
-        "last-name": "",
+        "first-name": {
+            value: "",
+        },
+        "last-name": {
+            value: "",
+            validators: [ControlValidators.required]
+        },
+        "email": {
+            email: "",
+            validators: [ControlValidators.email]
+        },
         "option": fb.group('test-option[]', {
             "option-one": "",
             "option-two": "",
@@ -14,7 +23,6 @@ import { BdFormBuilder, GroupValidators } from '../../../dist/form';
             "test-radio": ""
         })
     });
-    console.log(testForm);
 
     document.getElementById('disable-button').addEventListener('click', () => {
         testForm.disable();

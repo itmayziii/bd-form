@@ -158,6 +158,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BdFormBuilder", function() { return __WEBPACK_IMPORTED_MODULE_0__form_builder__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__validators_group_validators__ = __webpack_require__(6);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "GroupValidators", function() { return __WEBPACK_IMPORTED_MODULE_1__validators_group_validators__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__validators_control_validators__ = __webpack_require__(7);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ControlValidators", function() { return __WEBPACK_IMPORTED_MODULE_2__validators_control_validators__["a"]; });
+
 
 
 
@@ -179,16 +182,20 @@ class BdFormBuilder {
         const formControlObjects = {};
         for (let formControlName in formControls) {
             const formControlValue = formControls[formControlName];
+            let formControlValidators = [];
+            if (formControlValue.validators) {
+                formControlValidators = formControlValue.validators;
+            }
             if (formControlValue instanceof __WEBPACK_IMPORTED_MODULE_1__form_group__["a" /* BdFormGroup */]) {
                 formControlObjects[formControlName] = formControlValue;
                 continue;
             }
-            formControlObjects[formControlName] = this.control(formControlName);
+            formControlObjects[formControlName] = this.control(formControlName, formControlValidators);
         }
         return new __WEBPACK_IMPORTED_MODULE_1__form_group__["a" /* BdFormGroup */](groupName, formControlObjects, validators, this._document);
     }
-    control(controlName) {
-        return new __WEBPACK_IMPORTED_MODULE_0__form_control__["a" /* BdFormControl */](controlName, this._document);
+    control(controlName, controlValidators) {
+        return new __WEBPACK_IMPORTED_MODULE_0__form_control__["a" /* BdFormControl */](controlName, controlValidators, this._document);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = BdFormBuilder;
@@ -203,11 +210,12 @@ class BdFormBuilder {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__abstract_control__ = __webpack_require__(0);
 
 class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" /* AbstractControl */] {
-    constructor(name, document) {
+    constructor(name, validators = [], document) {
         super();
         this._document = document;
         this._controlEls = this._findControlsInDom(name);
         this._originalValue = this.getValue();
+        this._validators = validators;
         this._attachToDom();
     }
     /**
@@ -220,12 +228,7 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
             const controlElType = controlEl.getAttribute('type');
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
-                    if (controlEl.checked) {
-                        value = controlEl.value;
-                    }
-                    else {
-                        value = 'off';
-                    }
+                    value = controlEl.checked;
                     break;
                 case 'RADIO':
                     if (controlEl.checked) {
@@ -312,7 +315,7 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
                 });
             }
             else {
-                controlEl.addEventListener('keyup', (event) => {
+                controlEl.addEventListener('input', (event) => {
                     this._onControlChange(event.target);
                 });
             }
@@ -320,7 +323,7 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
     }
     _onControlChange(controlEl) {
         this._updateControlPristine(controlEl);
-        this._updateValid(controlEl.checkValidity(), controlEl);
+        this._updateValid(this._checkValidity(), controlEl);
     }
     _onControlBlur(controlEl) {
         this._updateUnTouched(false, controlEl);
@@ -342,11 +345,20 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
         this._controlEls.forEach((controlEl) => {
             this._updatePristine(true, controlEl);
             this._updateUnTouched(true, controlEl);
-            this._updateValid(controlEl.checkValidity(), controlEl);
+            this._updateValid(this._checkValidity(), controlEl);
         });
     }
     _resetControlValues() {
         this.setValue(this._originalValue);
+    }
+    _checkValidity() {
+        let isValid = true;
+        this._validators.forEach((validator) => {
+            if (!validator(this)) {
+                isValid = false;
+            }
+        });
+        return isValid;
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = BdFormControl;
@@ -516,7 +528,7 @@ class GroupValidators {
         for (let controlKey in controls) {
             const control = controls[controlKey];
             const controlValue = control.getValue();
-            if (controlValue !== 'off' && controlValue !== null && controlValue !== undefined && controlValue !== '') {
+            if (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '') {
                 oneSelected = true;
             }
         }
@@ -524,6 +536,27 @@ class GroupValidators {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = GroupValidators;
+
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class ControlValidators {
+    constructor() {
+    }
+    static required(control) {
+        const controlValue = control.getValue();
+        return (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '');
+    }
+    static email(control) {
+        const emailRegEx = /[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-‌​9-]+)*/;
+        return emailRegEx.test(control.getValue());
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ControlValidators;
 
 
 

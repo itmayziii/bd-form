@@ -9,23 +9,28 @@ export class BdFormBuilder {
         this._document = document;
     }
 
-    public group(groupName: string, formControls: { [key: string]: string | BdFormGroup } = {}, validators: any[] = []) {
+    public group(groupName: string, formControls: { [key: string]: any } = {}, validators: { (c: BdFormControl): boolean }[] = []) {
         const formControlObjects: { [key: string]: ControlInterface } = {};
         for (let formControlName in formControls) {
             const formControlValue = formControls[formControlName];
+
+            let formControlValidators: any[] = [];
+            if (formControlValue.validators) {
+                formControlValidators = formControlValue.validators;
+            }
 
             if (formControlValue instanceof BdFormGroup) {
                 formControlObjects[formControlName] = formControlValue;
                 continue;
             }
 
-            formControlObjects[formControlName] = this.control(formControlName);
+            formControlObjects[formControlName] = this.control(formControlName, formControlValidators);
         }
 
         return new BdFormGroup(groupName, formControlObjects, validators, this._document);
     }
 
-    public control(controlName: string) {
-        return new BdFormControl(controlName, this._document);
+    public control(controlName: string, controlValidators: any[]) {
+        return new BdFormControl(controlName, controlValidators, this._document);
     }
 }

@@ -5,12 +5,14 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     private _controlEls: HTMLInputElement[];
     private _document: any;
     private _originalValue: any;
+    private _validators: { (c: BdFormControl): boolean }[];
 
-    public constructor(name: string, document: any) {
+    public constructor(name: string, validators: { (c: BdFormControl): boolean }[] = [], document: any) {
         super();
         this._document = document;
         this._controlEls = this._findControlsInDom(name);
         this._originalValue = this.getValue();
+        this._validators = validators;
 
         this._attachToDom();
     }
@@ -20,16 +22,12 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
      * @returns {string}
      */
     public getValue(): any {
-        let value = '';
+        let value: any = '';
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
             const controlElType = controlEl.getAttribute('type');
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
-                    if (controlEl.checked) {
-                        value = controlEl.value;
-                    } else {
-                        value = 'off';
-                    }
+                    value = controlEl.checked;
                     break;
 
                 case 'RADIO':
@@ -136,7 +134,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
                     this._onControlChange(event.target);
                 });
             } else {
-                controlEl.addEventListener('keyup', (event: any) => {
+                controlEl.addEventListener('input', (event: any) => {
                     this._onControlChange(event.target);
                 });
             }
@@ -146,7 +144,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
 
     private _onControlChange(controlEl: HTMLInputElement): void {
         this._updateControlPristine(controlEl);
-        this._updateValid(controlEl.checkValidity(), controlEl);
+        this._updateValid(this._checkValidity(), controlEl);
     }
 
     private _onControlBlur(controlEl: HTMLInputElement): void {
@@ -171,11 +169,22 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
         this._controlEls.forEach((controlEl) => {
             this._updatePristine(true, controlEl);
             this._updateUnTouched(true, controlEl);
-            this._updateValid(controlEl.checkValidity(), controlEl);
+            this._updateValid(this._checkValidity(), controlEl);
         });
     }
 
     private _resetControlValues(): void {
         this.setValue(this._originalValue);
+    }
+
+    private _checkValidity(): boolean {
+        let isValid = true;
+        this._validators.forEach((validator) => {
+            if (!validator(this)) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
     }
 }

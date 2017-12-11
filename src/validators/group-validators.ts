@@ -10,7 +10,7 @@ export class GroupValidators {
         for (let controlKey in controls) {
             const control = controls[controlKey];
             const controlValue = control.getValue();
-            if (controlValue !== 'off' && controlValue !== null && controlValue !== undefined && controlValue !== '') {
+            if (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '') {
                 oneSelected = true;
             }
         }
