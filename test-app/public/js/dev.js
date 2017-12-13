@@ -123,15 +123,7 @@ var _form = __webpack_require__(41);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function webpackUniversalModuleDefinition(root, factory) {
     if (( false ? 'undefined' : _typeof(exports)) === 'object' && ( false ? 'undefined' : _typeof(module)) === 'object') module.exports = factory();else if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
@@ -222,11 +214,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         /***/function (module, __webpack_exports__, __webpack_require__) {
 
             "use strict";
-
-            var AbstractControl = function () {
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return AbstractControl;
+            });
+            var AbstractControl = /** @class */function () {
                 function AbstractControl() {
-                    _classCallCheck(this, AbstractControl);
-
                     this._pristineListeners = [];
                     this._untouchedListeners = [];
                     this._validListeners = [];
@@ -241,65 +234,50 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         VALID: 'bd-valid'
                     };
                 }
-
-                _createClass(AbstractControl, [{
-                    key: '_updatePristine',
-                    value: function _updatePristine(isPristine, classEl) {
-                        var _this = this;
-
-                        if (isPristine) {
-                            classEl.classList.remove(this._controlStates.DIRTY);
-                            classEl.classList.add(this._controlStates.PRISTINE);
-                        } else {
-                            classEl.classList.remove(this._controlStates.PRISTINE);
-                            classEl.classList.add(this._controlStates.DIRTY);
-                        }
-                        this._pristine = isPristine;
-                        this._pristineListeners.forEach(function (callback) {
-                            callback(_this._pristine);
-                        });
+                AbstractControl.prototype._updatePristine = function (isPristine, classEl) {
+                    var _this = this;
+                    if (isPristine) {
+                        classEl.classList.remove(this._controlStates.DIRTY);
+                        classEl.classList.add(this._controlStates.PRISTINE);
+                    } else {
+                        classEl.classList.remove(this._controlStates.PRISTINE);
+                        classEl.classList.add(this._controlStates.DIRTY);
                     }
-                }, {
-                    key: '_updateUnTouched',
-                    value: function _updateUnTouched(isUntouched, classEl) {
-                        var _this2 = this;
-
-                        if (isUntouched) {
-                            classEl.classList.remove(this._controlStates.TOUCHED);
-                            classEl.classList.add(this._controlStates.UNTOUCHED);
-                        } else {
-                            classEl.classList.remove(this._controlStates.UNTOUCHED);
-                            classEl.classList.add(this._controlStates.TOUCHED);
-                        }
-                        this._untouched = isUntouched;
-                        this._untouchedListeners.forEach(function (callback) {
-                            callback(_this2._untouched);
-                        });
+                    this._pristine = isPristine;
+                    this._pristineListeners.forEach(function (callback) {
+                        callback(_this._pristine);
+                    });
+                };
+                AbstractControl.prototype._updateUnTouched = function (isUntouched, classEl) {
+                    var _this = this;
+                    if (isUntouched) {
+                        classEl.classList.remove(this._controlStates.TOUCHED);
+                        classEl.classList.add(this._controlStates.UNTOUCHED);
+                    } else {
+                        classEl.classList.remove(this._controlStates.UNTOUCHED);
+                        classEl.classList.add(this._controlStates.TOUCHED);
                     }
-                }, {
-                    key: '_updateValid',
-                    value: function _updateValid(isValid, classEl) {
-                        var _this3 = this;
-
-                        if (isValid) {
-                            classEl.classList.remove(this._controlStates.INVALID);
-                            classEl.classList.add(this._controlStates.VALID);
-                        } else {
-                            classEl.classList.remove(this._controlStates.VALID);
-                            classEl.classList.add(this._controlStates.INVALID);
-                        }
-                        this._valid = isValid;
-                        this._validListeners.forEach(function (callback) {
-                            callback(_this3._valid);
-                        });
+                    this._untouched = isUntouched;
+                    this._untouchedListeners.forEach(function (callback) {
+                        callback(_this._untouched);
+                    });
+                };
+                AbstractControl.prototype._updateValid = function (isValid, classEl) {
+                    var _this = this;
+                    if (isValid) {
+                        classEl.classList.remove(this._controlStates.INVALID);
+                        classEl.classList.add(this._controlStates.VALID);
+                    } else {
+                        classEl.classList.remove(this._controlStates.VALID);
+                        classEl.classList.add(this._controlStates.INVALID);
                     }
-                }]);
-
+                    this._valid = isValid;
+                    this._validListeners.forEach(function (callback) {
+                        callback(_this._valid);
+                    });
+                };
                 return AbstractControl;
             }();
-            /* harmony export (immutable) */
-
-            __webpack_exports__["a"] = AbstractControl;
 
             /***/
         },
@@ -335,50 +313,44 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         /***/function (module, __webpack_exports__, __webpack_require__) {
 
             "use strict";
-            /* harmony import */
-            var __WEBPACK_IMPORTED_MODULE_0__form_control__ = __webpack_require__(4);
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return BdFormBuilder;
+            });
+            /* harmony import */var __WEBPACK_IMPORTED_MODULE_0__form_control__ = __webpack_require__(4);
             /* harmony import */var __WEBPACK_IMPORTED_MODULE_1__form_group__ = __webpack_require__(5);
 
-            var BdFormBuilder = function () {
+            var BdFormBuilder = /** @class */function () {
                 function BdFormBuilder(document) {
-                    _classCallCheck(this, BdFormBuilder);
-
                     this._document = document;
                 }
-
-                _createClass(BdFormBuilder, [{
-                    key: 'group',
-                    value: function group(groupName) {
-                        var formControls = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                        var validators = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
-                        var formControlObjects = {};
-                        for (var formControlName in formControls) {
-                            var formControlValue = formControls[formControlName];
-                            var formControlValidators = [];
-                            if (formControlValue.validators) {
-                                formControlValidators = formControlValue.validators;
-                            }
-                            if (formControlValue instanceof __WEBPACK_IMPORTED_MODULE_1__form_group__["a" /* BdFormGroup */]) {
-                                formControlObjects[formControlName] = formControlValue;
-                                continue;
-                            }
-                            formControlObjects[formControlName] = this.control(formControlName, formControlValidators);
+                BdFormBuilder.prototype.group = function (groupName, formControls, validators) {
+                    if (formControls === void 0) {
+                        formControls = {};
+                    }
+                    if (validators === void 0) {
+                        validators = [];
+                    }
+                    var formControlObjects = {};
+                    for (var formControlName in formControls) {
+                        var formControlValue = formControls[formControlName];
+                        var formControlValidators = [];
+                        if (formControlValue.validators) {
+                            formControlValidators = formControlValue.validators;
                         }
-                        return new __WEBPACK_IMPORTED_MODULE_1__form_group__["a" /* BdFormGroup */](groupName, formControlObjects, validators, this._document);
+                        if (formControlValue instanceof __WEBPACK_IMPORTED_MODULE_1__form_group__["a" /* BdFormGroup */]) {
+                            formControlObjects[formControlName] = formControlValue;
+                            continue;
+                        }
+                        formControlObjects[formControlName] = this.control(formControlName, formControlValidators);
                     }
-                }, {
-                    key: 'control',
-                    value: function control(controlName, controlValidators) {
-                        return new __WEBPACK_IMPORTED_MODULE_0__form_control__["a" /* BdFormControl */](controlName, controlValidators, this._document);
-                    }
-                }]);
-
+                    return new __WEBPACK_IMPORTED_MODULE_1__form_group__["a" /* BdFormGroup */](groupName, formControlObjects, validators, this._document);
+                };
+                BdFormBuilder.prototype.control = function (controlName, controlValidators) {
+                    return new __WEBPACK_IMPORTED_MODULE_0__form_control__["a" /* BdFormControl */](controlName, controlValidators, this._document);
+                };
                 return BdFormBuilder;
             }();
-            /* harmony export (immutable) */
-
-            __webpack_exports__["a"] = BdFormBuilder;
 
             /***/
         },
@@ -386,222 +358,187 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         /***/function (module, __webpack_exports__, __webpack_require__) {
 
             "use strict";
-            /* harmony import */
-            var __WEBPACK_IMPORTED_MODULE_0__abstract_control__ = __webpack_require__(0);
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return BdFormControl;
+            });
+            /* harmony import */var __WEBPACK_IMPORTED_MODULE_0__abstract_control__ = __webpack_require__(0);
+            var __extends = this && this.__extends || function () {
+                var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+                    d.__proto__ = b;
+                } || function (d, b) {
+                    for (var p in b) {
+                        if (b.hasOwnProperty(p)) d[p] = b[p];
+                    }
+                };
+                return function (d, b) {
+                    extendStatics(d, b);
+                    function __() {
+                        this.constructor = d;
+                    }
+                    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+                };
+            }();
 
-            var BdFormControl = function (_WEBPACK_IMPORTED_MO) {
-                _inherits(BdFormControl, _WEBPACK_IMPORTED_MO);
-
-                function BdFormControl(name) {
-                    var validators = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-                    var document = arguments[2];
-
-                    _classCallCheck(this, BdFormControl);
-
-                    var _this4 = _possibleConstructorReturn(this, (BdFormControl.__proto__ || Object.getPrototypeOf(BdFormControl)).call(this));
-
-                    _this4._document = document;
-                    _this4._controlEls = _this4._findControlsInDom(name);
-                    _this4._originalValue = _this4.getValue();
-                    _this4._validators = validators;
-                    _this4._attachToDom();
-                    return _this4;
+            var BdFormControl = /** @class */function (_super) {
+                __extends(BdFormControl, _super);
+                function BdFormControl(name, validators, document) {
+                    if (validators === void 0) {
+                        validators = [];
+                    }
+                    var _this = _super.call(this) || this;
+                    _this._document = document;
+                    _this._controlEls = _this._findControlsInDom(name);
+                    _this._originalValue = _this.getValue();
+                    _this._validators = validators;
+                    _this._attachToDom();
+                    return _this;
                 }
                 /**
                  * Unfortunately HTMLInputElements are not standardized very well, i.e. checkbox.value always being 'on', this should help standardize
                  * @returns {string}
                  */
-
-
-                _createClass(BdFormControl, [{
-                    key: 'getValue',
-                    value: function getValue() {
-                        var value = '';
-                        this._controlEls.forEach(function (controlEl) {
-                            var controlElType = controlEl.type;
-                            switch (controlElType.toUpperCase()) {
-                                case 'CHECKBOX':
-                                    value = controlEl.checked;
-                                    break;
-                                case 'RADIO':
-                                    if (controlEl.checked) {
-                                        value = controlEl.value;
-                                    }
-                                    break;
-                                default:
+                BdFormControl.prototype.getValue = function () {
+                    var value = '';
+                    this._controlEls.forEach(function (controlEl) {
+                        var controlElType = controlEl.type;
+                        switch (controlElType.toUpperCase()) {
+                            case 'CHECKBOX':
+                                value = controlEl.checked;
+                                break;
+                            case 'RADIO':
+                                if (controlEl.checked) {
                                     value = controlEl.value;
-                            }
-                        });
-                        return value;
-                    }
-                }, {
-                    key: 'setValue',
-                    value: function setValue(value) {
-                        this._controlEls.forEach(function (controlEl) {
-                            var controlElType = controlEl.type;
-                            switch (controlElType.toUpperCase()) {
-                                case 'CHECKBOX':
-                                    controlEl.checked = value === true;
-                                    break;
-                                case 'RADIO':
-                                    var controlElValue = controlEl.value;
-                                    controlEl.checked = controlElValue === value;
-                                    break;
-                                default:
-                                    controlEl.value = value;
-                            }
-                        });
-                    }
-                }, {
-                    key: 'isPristine',
-                    value: function isPristine() {
-                        return this._pristine;
-                    }
-                }, {
-                    key: 'isUntouched',
-                    value: function isUntouched() {
-                        return this._untouched;
-                    }
-                }, {
-                    key: 'isValid',
-                    value: function isValid() {
-                        return this._valid;
-                    }
-                }, {
-                    key: 'disable',
-                    value: function disable() {
-                        this._controlEls.forEach(function (controlEl) {
-                            controlEl.disabled = true;
-                        });
-                    }
-                }, {
-                    key: 'enable',
-                    value: function enable() {
-                        this._controlEls.forEach(function (controlEl) {
-                            controlEl.disabled = false;
-                        });
-                    }
-                }, {
-                    key: 'reset',
-                    value: function reset() {
-                        this._resetControlStates();
-                        this._resetControlValues();
-                    }
-                }, {
-                    key: 'registerPristineListener',
-                    value: function registerPristineListener(callback) {
-                        this._pristineListeners.push(callback);
-                    }
-                }, {
-                    key: 'registerUntouchedListener',
-                    value: function registerUntouchedListener(callback) {
-                        this._untouchedListeners.push(callback);
-                    }
-                }, {
-                    key: 'registerValidListener',
-                    value: function registerValidListener(callback) {
-                        this._validListeners.push(callback);
-                    }
-                }, {
-                    key: '_findControlsInDom',
-                    value: function _findControlsInDom(controlName) {
-                        var controlNodeList = this._document.querySelectorAll('[data-bd-form-control="' + controlName + '"]');
-                        if (controlNodeList.length === 0) {
-                            throw new Error('BdFormControl: One or more form controls should be found with name ' + controlName);
+                                }
+                                break;
+                            default:
+                                value = controlEl.value;
                         }
-                        var controlEls = [];
-                        for (var nodeKey in controlNodeList) {
-                            if (!controlNodeList.hasOwnProperty(nodeKey)) {
-                                continue;
-                            }
-                            controlEls.push(controlNodeList[nodeKey]);
+                    });
+                    return value;
+                };
+                BdFormControl.prototype.setValue = function (value) {
+                    this._controlEls.forEach(function (controlEl) {
+                        var controlElType = controlEl.type;
+                        switch (controlElType.toUpperCase()) {
+                            case 'CHECKBOX':
+                                controlEl.checked = value === true;
+                                break;
+                            case 'RADIO':
+                                var controlElValue = controlEl.value;
+                                controlEl.checked = controlElValue === value;
+                                break;
+                            default:
+                                controlEl.value = value;
                         }
-                        return controlEls;
+                    });
+                };
+                BdFormControl.prototype.isPristine = function () {
+                    return this._pristine;
+                };
+                BdFormControl.prototype.isUntouched = function () {
+                    return this._untouched;
+                };
+                BdFormControl.prototype.isValid = function () {
+                    return this._valid;
+                };
+                BdFormControl.prototype.disable = function () {
+                    this._controlEls.forEach(function (controlEl) {
+                        controlEl.disabled = true;
+                    });
+                };
+                BdFormControl.prototype.enable = function () {
+                    this._controlEls.forEach(function (controlEl) {
+                        controlEl.disabled = false;
+                    });
+                };
+                BdFormControl.prototype.reset = function () {
+                    this._resetControlStates();
+                    this._resetControlValues();
+                };
+                BdFormControl.prototype.registerPristineListener = function (callback) {
+                    this._pristineListeners.push(callback);
+                };
+                BdFormControl.prototype.registerUntouchedListener = function (callback) {
+                    this._untouchedListeners.push(callback);
+                };
+                BdFormControl.prototype.registerValidListener = function (callback) {
+                    this._validListeners.push(callback);
+                };
+                BdFormControl.prototype._findControlsInDom = function (controlName) {
+                    var controlNodeList = this._document.querySelectorAll("[data-bd-form-control=\"" + controlName + "\"]");
+                    if (controlNodeList.length === 0) {
+                        throw new Error("BdFormControl: One or more form controls should be found with name " + controlName);
                     }
-                }, {
-                    key: '_addControlListeners',
-                    value: function _addControlListeners() {
-                        var _this5 = this;
-
-                        this._controlEls.forEach(function (controlEl) {
-                            controlEl.addEventListener('blur', function (event) {
-                                _this5._onControlBlur(event.currentTarget);
+                    var controlEls = [];
+                    for (var nodeKey in controlNodeList) {
+                        if (!controlNodeList.hasOwnProperty(nodeKey)) {
+                            continue;
+                        }
+                        controlEls.push(controlNodeList[nodeKey]);
+                    }
+                    return controlEls;
+                };
+                BdFormControl.prototype._addControlListeners = function () {
+                    var _this = this;
+                    this._controlEls.forEach(function (controlEl) {
+                        controlEl.addEventListener('blur', function (event) {
+                            _this._onControlBlur(event.currentTarget);
+                        });
+                        var controlElType = controlEl.type.toUpperCase();
+                        if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
+                            controlEl.addEventListener('change', function (event) {
+                                _this._onControlChange(event.target);
                             });
-                            var controlElType = controlEl.type.toUpperCase();
-                            if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
-                                controlEl.addEventListener('change', function (event) {
-                                    _this5._onControlChange(event.target);
-                                });
-                            } else {
-                                controlEl.addEventListener('input', function (event) {
-                                    _this5._onControlChange(event.target);
-                                });
-                            }
-                        });
-                    }
-                }, {
-                    key: '_onControlChange',
-                    value: function _onControlChange(controlEl) {
-                        this._updateControlPristine(controlEl);
-                        this._updateValid(this._checkValidity(), controlEl);
-                    }
-                }, {
-                    key: '_onControlBlur',
-                    value: function _onControlBlur(controlEl) {
-                        this._updateUnTouched(false, controlEl);
-                    }
-                }, {
-                    key: '_updateControlPristine',
-                    value: function _updateControlPristine(controlEl) {
-                        var currentValue = this.getValue();
-                        if (currentValue === this._originalValue) {
-                            this._updatePristine(true, controlEl);
                         } else {
-                            this._updatePristine(false, controlEl);
+                            controlEl.addEventListener('input', function (event) {
+                                _this._onControlChange(event.target);
+                            });
                         }
+                    });
+                };
+                BdFormControl.prototype._onControlChange = function (controlEl) {
+                    this._updateControlPristine(controlEl);
+                    this._updateValid(this._checkValidity(), controlEl);
+                };
+                BdFormControl.prototype._onControlBlur = function (controlEl) {
+                    this._updateUnTouched(false, controlEl);
+                };
+                BdFormControl.prototype._updateControlPristine = function (controlEl) {
+                    var currentValue = this.getValue();
+                    if (currentValue === this._originalValue) {
+                        this._updatePristine(true, controlEl);
+                    } else {
+                        this._updatePristine(false, controlEl);
                     }
-                }, {
-                    key: '_attachToDom',
-                    value: function _attachToDom() {
-                        this._resetControlStates();
-                        this._addControlListeners();
-                    }
-                }, {
-                    key: '_resetControlStates',
-                    value: function _resetControlStates() {
-                        var _this6 = this;
-
-                        this._controlEls.forEach(function (controlEl) {
-                            _this6._updatePristine(true, controlEl);
-                            _this6._updateUnTouched(true, controlEl);
-                            _this6._updateValid(_this6._checkValidity(), controlEl);
-                        });
-                    }
-                }, {
-                    key: '_resetControlValues',
-                    value: function _resetControlValues() {
-                        this.setValue(this._originalValue);
-                    }
-                }, {
-                    key: '_checkValidity',
-                    value: function _checkValidity() {
-                        var _this7 = this;
-
-                        var isValid = true;
-                        this._validators.forEach(function (validator) {
-                            if (!validator(_this7)) {
-                                isValid = false;
-                            }
-                        });
-                        return isValid;
-                    }
-                }]);
-
+                };
+                BdFormControl.prototype._attachToDom = function () {
+                    this._resetControlStates();
+                    this._addControlListeners();
+                };
+                BdFormControl.prototype._resetControlStates = function () {
+                    var _this = this;
+                    this._controlEls.forEach(function (controlEl) {
+                        _this._updatePristine(true, controlEl);
+                        _this._updateUnTouched(true, controlEl);
+                        _this._updateValid(_this._checkValidity(), controlEl);
+                    });
+                };
+                BdFormControl.prototype._resetControlValues = function () {
+                    this.setValue(this._originalValue);
+                };
+                BdFormControl.prototype._checkValidity = function () {
+                    var _this = this;
+                    var isValid = true;
+                    this._validators.forEach(function (validator) {
+                        if (!validator(_this)) {
+                            isValid = false;
+                        }
+                    });
+                    return isValid;
+                };
                 return BdFormControl;
             }(__WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" /* AbstractControl */]);
-            /* harmony export (immutable) */
-
-            __webpack_exports__["a"] = BdFormControl;
 
             /***/
         },
@@ -609,198 +546,177 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         /***/function (module, __webpack_exports__, __webpack_require__) {
 
             "use strict";
-            /* harmony import */
-            var __WEBPACK_IMPORTED_MODULE_0__abstract_control__ = __webpack_require__(0);
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return BdFormGroup;
+            });
+            /* harmony import */var __WEBPACK_IMPORTED_MODULE_0__abstract_control__ = __webpack_require__(0);
+            var __extends = this && this.__extends || function () {
+                var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+                    d.__proto__ = b;
+                } || function (d, b) {
+                    for (var p in b) {
+                        if (b.hasOwnProperty(p)) d[p] = b[p];
+                    }
+                };
+                return function (d, b) {
+                    extendStatics(d, b);
+                    function __() {
+                        this.constructor = d;
+                    }
+                    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+                };
+            }();
 
-            var BdFormGroup = function (_WEBPACK_IMPORTED_MO2) {
-                _inherits(BdFormGroup, _WEBPACK_IMPORTED_MO2);
-
-                function BdFormGroup(groupName) {
-                    var formControls = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                    var validators = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-                    var document = arguments[3];
-
-                    _classCallCheck(this, BdFormGroup);
-
-                    var _this8 = _possibleConstructorReturn(this, (BdFormGroup.__proto__ || Object.getPrototypeOf(BdFormGroup)).call(this));
-
-                    _this8._controls = formControls;
-                    _this8._document = document;
-                    _this8._groupEl = _this8._findGroupInDom(groupName);
-                    _this8._validators = validators;
-                    _this8._attachToDom();
-                    return _this8;
+            var BdFormGroup = /** @class */function (_super) {
+                __extends(BdFormGroup, _super);
+                function BdFormGroup(groupName, formControls, validators, document) {
+                    if (formControls === void 0) {
+                        formControls = {};
+                    }
+                    if (validators === void 0) {
+                        validators = [];
+                    }
+                    var _this = _super.call(this) || this;
+                    _this._controls = formControls;
+                    _this._document = document;
+                    _this._groupEl = _this._findGroupInDom(groupName);
+                    _this._validators = validators;
+                    _this._attachToDom();
+                    return _this;
                 }
-
-                _createClass(BdFormGroup, [{
-                    key: 'getValue',
-                    value: function getValue() {
-                        var values = {};
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            values[controlKey] = control.getValue();
-                        }
-                        return values;
+                BdFormGroup.prototype.getValue = function () {
+                    var values = {};
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        values[controlKey] = control.getValue();
                     }
-                }, {
-                    key: 'disable',
-                    value: function disable() {
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            control.disable();
+                    return values;
+                };
+                BdFormGroup.prototype.disable = function () {
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        control.disable();
+                    }
+                };
+                BdFormGroup.prototype.enable = function () {
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        control.enable();
+                    }
+                };
+                BdFormGroup.prototype.isPristine = function () {
+                    var isPristine = true;
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        if (control.isPristine() === false) {
+                            isPristine = false;
+                            break;
                         }
                     }
-                }, {
-                    key: 'enable',
-                    value: function enable() {
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            control.enable();
+                    return isPristine;
+                };
+                BdFormGroup.prototype.isUntouched = function () {
+                    var isUntouched = true;
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        if (control.isUntouched() === false) {
+                            isUntouched = false;
+                            break;
                         }
                     }
-                }, {
-                    key: 'isPristine',
-                    value: function isPristine() {
-                        var isPristine = true;
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            if (control.isPristine() === false) {
-                                isPristine = false;
-                                break;
-                            }
+                    return isUntouched;
+                };
+                BdFormGroup.prototype.isValid = function () {
+                    var isValid = true;
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        if (control.isValid() === false) {
+                            isValid = false;
+                            break;
                         }
-                        return isPristine;
                     }
-                }, {
-                    key: 'isUntouched',
-                    value: function isUntouched() {
-                        var isUntouched = true;
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            if (control.isUntouched() === false) {
-                                isUntouched = false;
-                                break;
-                            }
-                        }
-                        return isUntouched;
-                    }
-                }, {
-                    key: 'isValid',
-                    value: function isValid() {
-                        var isValid = true;
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            if (control.isValid() === false) {
-                                isValid = false;
-                                break;
-                            }
-                        }
-                        if (!isValid) {
-                            return isValid;
-                        } else {
-                            isValid = this._runThroughValidators();
-                        }
+                    if (!isValid) {
                         return isValid;
+                    } else {
+                        isValid = this._runThroughValidators();
                     }
-                }, {
-                    key: 'reset',
-                    value: function reset() {
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            control.reset();
-                        }
-                        this._resetControlStates();
+                    return isValid;
+                };
+                BdFormGroup.prototype.reset = function () {
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        control.reset();
                     }
-                }, {
-                    key: 'registerPristineListener',
-                    value: function registerPristineListener(callback) {
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            control.registerPristineListener(function () {
-                                callback();
-                            });
-                        }
-                    }
-                }, {
-                    key: 'registerUntouchedListener',
-                    value: function registerUntouchedListener(callback) {
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            control.registerUntouchedListener(function () {
-                                callback();
-                            });
-                        }
-                    }
-                }, {
-                    key: 'registerValidListener',
-                    value: function registerValidListener(callback) {
-                        for (var controlKey in this._controls) {
-                            var control = this._controls[controlKey];
-                            control.registerValidListener(function () {
-                                callback();
-                            });
-                        }
-                    }
-                }, {
-                    key: 'getControl',
-                    value: function getControl(controlName) {
-                        return this._controls[controlName];
-                    }
-                }, {
-                    key: '_findGroupInDom',
-                    value: function _findGroupInDom(groupName) {
-                        var formGroupEls = this._document.querySelectorAll('[data-bd-form-group="' + groupName + '"]');
-                        if (formGroupEls.length !== 1) {
-                            throw new Error('BdFormGroup: Exactly 1 form group should be found with name ' + groupName + ', but found ' + formGroupEls.length);
-                        }
-                        return formGroupEls[0];
-                    }
-                }, {
-                    key: '_attachToDom',
-                    value: function _attachToDom() {
-                        var _this9 = this;
-
-                        this.reset();
-                        this.registerUntouchedListener(function (isUntouched) {
-                            if (_this9._untouched === false) {
-                                return;
-                            }
-                            _this9._updateUnTouched(isUntouched, _this9._groupEl);
-                        });
-                        this.registerPristineListener(function (isPristine) {
-                            _this9._updatePristine(_this9.isPristine(), _this9._groupEl);
-                        });
-                        this.registerValidListener(function (isValid) {
-                            _this9._updateValid(_this9.isValid(), _this9._groupEl);
+                    this._resetControlStates();
+                };
+                BdFormGroup.prototype.registerPristineListener = function (callback) {
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        control.registerPristineListener(function () {
+                            callback();
                         });
                     }
-                }, {
-                    key: '_resetControlStates',
-                    value: function _resetControlStates() {
-                        this._updatePristine(true, this._groupEl);
-                        this._updateUnTouched(true, this._groupEl);
-                        this._updateValid(this.isValid(), this._groupEl);
-                    }
-                }, {
-                    key: '_runThroughValidators',
-                    value: function _runThroughValidators() {
-                        var _this10 = this;
-
-                        var isValid = true;
-                        this._validators.forEach(function (validator) {
-                            if (!validator(_this10._controls)) {
-                                isValid = false;
-                            }
+                };
+                BdFormGroup.prototype.registerUntouchedListener = function (callback) {
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        control.registerUntouchedListener(function () {
+                            callback();
                         });
-                        return isValid;
                     }
-                }]);
-
+                };
+                BdFormGroup.prototype.registerValidListener = function (callback) {
+                    for (var controlKey in this._controls) {
+                        var control = this._controls[controlKey];
+                        control.registerValidListener(function () {
+                            callback();
+                        });
+                    }
+                };
+                BdFormGroup.prototype.getControl = function (controlName) {
+                    return this._controls[controlName];
+                };
+                BdFormGroup.prototype._findGroupInDom = function (groupName) {
+                    var formGroupEls = this._document.querySelectorAll("[data-bd-form-group=\"" + groupName + "\"]");
+                    if (formGroupEls.length !== 1) {
+                        throw new Error("BdFormGroup: Exactly 1 form group should be found with name " + groupName + ", but found " + formGroupEls.length);
+                    }
+                    return formGroupEls[0];
+                };
+                BdFormGroup.prototype._attachToDom = function () {
+                    var _this = this;
+                    this.reset();
+                    this.registerUntouchedListener(function (isUntouched) {
+                        if (_this._untouched === false) {
+                            return;
+                        }
+                        _this._updateUnTouched(isUntouched, _this._groupEl);
+                    });
+                    this.registerPristineListener(function (isPristine) {
+                        _this._updatePristine(_this.isPristine(), _this._groupEl);
+                    });
+                    this.registerValidListener(function (isValid) {
+                        _this._updateValid(_this.isValid(), _this._groupEl);
+                    });
+                };
+                BdFormGroup.prototype._resetControlStates = function () {
+                    this._updatePristine(true, this._groupEl);
+                    this._updateUnTouched(true, this._groupEl);
+                    this._updateValid(this.isValid(), this._groupEl);
+                };
+                BdFormGroup.prototype._runThroughValidators = function () {
+                    var _this = this;
+                    var isValid = true;
+                    this._validators.forEach(function (validator) {
+                        if (!validator(_this._controls)) {
+                            isValid = false;
+                        }
+                    });
+                    return isValid;
+                };
                 return BdFormGroup;
             }(__WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" /* AbstractControl */]);
-            /* harmony export (immutable) */
-
-            __webpack_exports__["a"] = BdFormGroup;
 
             /***/
         },
@@ -808,32 +724,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         /***/function (module, __webpack_exports__, __webpack_require__) {
 
             "use strict";
-
-            var GroupValidators = function () {
-                function GroupValidators() {
-                    _classCallCheck(this, GroupValidators);
-                }
-
-                _createClass(GroupValidators, null, [{
-                    key: 'atLeastOneSelected',
-                    value: function atLeastOneSelected(controls) {
-                        var oneSelected = false;
-                        for (var controlKey in controls) {
-                            var control = controls[controlKey];
-                            var controlValue = control.getValue();
-                            if (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '') {
-                                oneSelected = true;
-                            }
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return GroupValidators;
+            });
+            var GroupValidators = /** @class */function () {
+                function GroupValidators() {}
+                GroupValidators.atLeastOneSelected = function (controls) {
+                    var oneSelected = false;
+                    for (var controlKey in controls) {
+                        var control = controls[controlKey];
+                        var controlValue = control.getValue();
+                        if (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '') {
+                            oneSelected = true;
                         }
-                        return oneSelected;
                     }
-                }]);
-
+                    return oneSelected;
+                };
                 return GroupValidators;
             }();
-            /* harmony export (immutable) */
-
-            __webpack_exports__["a"] = GroupValidators;
 
             /***/
         },
@@ -841,31 +750,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         /***/function (module, __webpack_exports__, __webpack_require__) {
 
             "use strict";
-
-            var ControlValidators = function () {
-                function ControlValidators() {
-                    _classCallCheck(this, ControlValidators);
-                }
-
-                _createClass(ControlValidators, null, [{
-                    key: 'required',
-                    value: function required(control) {
-                        var controlValue = control.getValue();
-                        return controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '';
-                    }
-                }, {
-                    key: 'email',
-                    value: function email(control) {
-                        var emailRegEx = /[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-‌​9-]+)*/;
-                        return emailRegEx.test(control.getValue());
-                    }
-                }]);
-
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return ControlValidators;
+            });
+            var ControlValidators = /** @class */function () {
+                function ControlValidators() {}
+                ControlValidators.required = function (control) {
+                    var controlValue = control.getValue();
+                    return controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '';
+                };
+                ControlValidators.email = function (control) {
+                    var emailRegEx = /[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-‌​9-]+)*/;
+                    return emailRegEx.test(control.getValue());
+                };
                 return ControlValidators;
             }();
-            /* harmony export (immutable) */
-
-            __webpack_exports__["a"] = ControlValidators;
 
             /***/
         }]
