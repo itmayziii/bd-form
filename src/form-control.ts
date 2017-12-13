@@ -24,7 +24,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     public getValue(): any {
         let value: any = '';
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
-            const controlElType = controlEl.getAttribute('type');
+            const controlElType = controlEl.type;
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     value = controlEl.checked;
@@ -46,14 +46,14 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
 
     public setValue(value: any): void {
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
-            const controlElType = controlEl.getAttribute('type');
+            const controlElType = controlEl.type;
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     controlEl.checked = value === true;
                     break;
 
                 case 'RADIO':
-                    const controlElValue = controlEl.getAttribute('value');
+                    const controlElValue = controlEl.value;
                     controlEl.checked = controlElValue === value;
                     break;
 
@@ -77,13 +77,13 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
 
     public disable(): void {
         this._controlEls.forEach((controlEl) => {
-            controlEl.setAttribute('disabled', 'true');
+            controlEl.disabled = true;
         });
     }
 
     public enable(): void {
         this._controlEls.forEach((controlEl) => {
-            controlEl.removeAttribute('disabled');
+            controlEl.disabled = false;
         });
     }
 
@@ -128,7 +128,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
                 this._onControlBlur(event.currentTarget);
             });
 
-            const controlElType = controlEl.getAttribute('type').toUpperCase();
+            const controlElType = controlEl.type.toUpperCase();
             if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
                 controlEl.addEventListener('change', (event: any) => {
                     this._onControlChange(event.target);

@@ -6,4 +6,4 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./testing/public:/usr/local/apache2/htdocs
+      - ./test-app/public:/usr/local/apache2/htdocs

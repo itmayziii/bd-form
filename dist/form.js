@@ -225,7 +225,7 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
     getValue() {
         let value = '';
         this._controlEls.forEach((controlEl) => {
-            const controlElType = controlEl.getAttribute('type');
+            const controlElType = controlEl.type;
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     value = controlEl.checked;
@@ -243,13 +243,13 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
     }
     setValue(value) {
         this._controlEls.forEach((controlEl) => {
-            const controlElType = controlEl.getAttribute('type');
+            const controlElType = controlEl.type;
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     controlEl.checked = value === true;
                     break;
                 case 'RADIO':
-                    const controlElValue = controlEl.getAttribute('value');
+                    const controlElValue = controlEl.value;
                     controlEl.checked = controlElValue === value;
                     break;
                 default:
@@ -268,12 +268,12 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
     }
     disable() {
         this._controlEls.forEach((controlEl) => {
-            controlEl.setAttribute('disabled', 'true');
+            controlEl.disabled = true;
         });
     }
     enable() {
         this._controlEls.forEach((controlEl) => {
-            controlEl.removeAttribute('disabled');
+            controlEl.disabled = false;
         });
     }
     reset() {
@@ -308,7 +308,7 @@ class BdFormControl extends __WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" 
             controlEl.addEventListener('blur', (event) => {
                 this._onControlBlur(event.currentTarget);
             });
-            const controlElType = controlEl.getAttribute('type').toUpperCase();
+            const controlElType = controlEl.type.toUpperCase();
             if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
                 controlEl.addEventListener('change', (event) => {
                     this._onControlChange(event.target);
