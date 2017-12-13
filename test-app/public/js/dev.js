@@ -105,7 +105,6 @@ var _form = __webpack_require__(41);
             "test-radio": ""
         })
     });
-    console.log(testForm);
 
     document.getElementById('disable-button').addEventListener('click', function () {
         testForm.disable();
@@ -419,7 +418,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     value: function getValue() {
                         var value = '';
                         this._controlEls.forEach(function (controlEl) {
-                            var controlElType = controlEl.getAttribute('type');
+                            var controlElType = controlEl.type;
                             switch (controlElType.toUpperCase()) {
                                 case 'CHECKBOX':
                                     value = controlEl.checked;
@@ -439,13 +438,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     key: 'setValue',
                     value: function setValue(value) {
                         this._controlEls.forEach(function (controlEl) {
-                            var controlElType = controlEl.getAttribute('type');
+                            var controlElType = controlEl.type;
                             switch (controlElType.toUpperCase()) {
                                 case 'CHECKBOX':
                                     controlEl.checked = value === true;
                                     break;
                                 case 'RADIO':
-                                    var controlElValue = controlEl.getAttribute('value');
+                                    var controlElValue = controlEl.value;
                                     controlEl.checked = controlElValue === value;
                                     break;
                                 default:
@@ -472,14 +471,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     key: 'disable',
                     value: function disable() {
                         this._controlEls.forEach(function (controlEl) {
-                            controlEl.setAttribute('disabled', 'true');
+                            controlEl.disabled = true;
                         });
                     }
                 }, {
                     key: 'enable',
                     value: function enable() {
                         this._controlEls.forEach(function (controlEl) {
-                            controlEl.removeAttribute('disabled');
+                            controlEl.disabled = false;
                         });
                     }
                 }, {
@@ -528,7 +527,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             controlEl.addEventListener('blur', function (event) {
                                 _this5._onControlBlur(event.currentTarget);
                             });
-                            var controlElType = controlEl.getAttribute('type').toUpperCase();
+                            var controlElType = controlEl.type.toUpperCase();
                             if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
                                 controlEl.addEventListener('change', function (event) {
                                     _this5._onControlChange(event.target);

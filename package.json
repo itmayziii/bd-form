@@ -6,7 +6,7 @@
   "scripts": {
     "dev:library": "node_modules/.bin/webpack -w --config webpack.config.js",
     "dev:test-app": "node_modules/.bin/webpack -w --config testing/webpack.config.js",
-    "build": "node_modules/.bin/webpack --config webpack.config.js && node_modules/.bin/webpack --config testing/webpack.config.js",
+    "build": "node_modules/.bin/webpack --config webpack.config.js && node_modules/.bin/webpack --config test-app/webpack.config.js",
     "test": "node_modules/.bin/karma start"
   },
   "author": "tommymay37@gmail.com",
