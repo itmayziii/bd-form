@@ -1,11 +1,11 @@
 {
   "name": "bd-form",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Helps perform complex data validation on the front end",
   "main": "index.js",
   "scripts": {
     "dev:library": "node_modules/.bin/webpack -w --config webpack.config.js",
-    "dev:test-app": "node_modules/.bin/webpack -w --config testing/webpack.config.js",
+    "dev:test-app": "node_modules/.bin/webpack -w --config test-app/webpack.config.js",
     "build": "node_modules/.bin/webpack --config webpack.config.js && node_modules/.bin/webpack --config test-app/webpack.config.js",
     "test": "node_modules/.bin/karma start"
   },

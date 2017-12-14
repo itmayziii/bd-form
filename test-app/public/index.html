@@ -6,12 +6,12 @@
 </head>
 <body>
 <form class="form" id="test-form" data-bd-form-group="test-form" novalidate>
-    <div class="form-group">
+    <div class="form-group" data-bd-form-control-classes="first-name">
         <label for="first-name">First Name*</label>
         <input class="form-control" type="text" name="first-name" id="first-name" data-bd-form-control="first-name">
     </div>
 
-    <div class="form-group">
+    <div class="form-group" data-bd-form-control-classes="last-name">
         <label for="last-name">Last Name*</label>
         <input class="form-control" type="text" name="last-name" id="last-name" data-bd-form-control="last-name">
     </div>
@@ -31,7 +31,7 @@
         <input class="form-control" type="checkbox" id="option-three" name="test-option[]" data-bd-form-control="option-three">
     </div>
 
-    <div class="form-group" data-bd-form-group="test-radio">
+    <div class="form-group" data-bd-form-control-classes="test-radio">
         <h5>Select One</h5>
         <label for="test-radio-one">Test Radio One</label>
         <input class="form-control" type="radio" name="test-radio" id="test-radio-one" data-bd-form-control="test-radio">

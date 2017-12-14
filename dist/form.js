@@ -236,6 +236,7 @@ var BdFormControl = /** @class */ (function (_super) {
         _this._controlEls = _this._findControlsInDom(name);
         _this._originalValue = _this.getValue();
         _this._validators = validators;
+        _this._elToPutClasses = _this._findElToPutClasses(name);
         _this._attachToDom();
         return _this;
     }
@@ -344,19 +345,22 @@ var BdFormControl = /** @class */ (function (_super) {
         });
     };
     BdFormControl.prototype._onControlChange = function (controlEl) {
-        this._updateControlPristine(controlEl);
-        this._updateValid(this._checkValidity(), controlEl);
+        var elToPutClasses = this._elToPutClasses || controlEl;
+        this._updateControlPristine(elToPutClasses);
+        this._updateValid(this._checkValidity(), elToPutClasses);
     };
     BdFormControl.prototype._onControlBlur = function (controlEl) {
-        this._updateUnTouched(false, controlEl);
+        var elToPutClasses = this._elToPutClasses || controlEl;
+        this._updateUnTouched(false, elToPutClasses);
     };
     BdFormControl.prototype._updateControlPristine = function (controlEl) {
         var currentValue = this.getValue();
+        var elToPutClasses = this._elToPutClasses || controlEl;
         if (currentValue === this._originalValue) {
-            this._updatePristine(true, controlEl);
+            this._updatePristine(true, elToPutClasses);
         }
         else {
-            this._updatePristine(false, controlEl);
+            this._updatePristine(false, elToPutClasses);
         }
     };
     BdFormControl.prototype._attachToDom = function () {
@@ -366,9 +370,10 @@ var BdFormControl = /** @class */ (function (_super) {
     BdFormControl.prototype._resetControlStates = function () {
         var _this = this;
         this._controlEls.forEach(function (controlEl) {
-            _this._updatePristine(true, controlEl);
-            _this._updateUnTouched(true, controlEl);
-            _this._updateValid(_this._checkValidity(), controlEl);
+            var elToPutClasses = _this._elToPutClasses || controlEl;
+            _this._updatePristine(true, elToPutClasses);
+            _this._updateUnTouched(true, elToPutClasses);
+            _this._updateValid(_this._checkValidity(), elToPutClasses);
         });
     };
     BdFormControl.prototype._resetControlValues = function () {
@@ -383,6 +388,12 @@ var BdFormControl = /** @class */ (function (_super) {
             }
         });
         return isValid;
+    };
+    BdFormControl.prototype._findElToPutClasses = function (name) {
+        var elToPutClasses = this._document.querySelector("[data-bd-form-control-classes=\"" + name + "\"");
+        if (!elToPutClasses)
+            return;
+        return elToPutClasses;
     };
     return BdFormControl;
 }(__WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" /* AbstractControl */]));

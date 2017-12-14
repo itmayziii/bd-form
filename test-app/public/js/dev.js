@@ -101,9 +101,9 @@ var _form = __webpack_require__(41);
             "option-two": "",
             "option-three": ""
         }, [_form.GroupValidators.atLeastOneSelected]),
-        "test-radio": fb.group('test-radio', {
-            "test-radio": ""
-        })
+        "test-radio": {
+            validators: [_form.ControlValidators.required]
+        }
     });
 
     document.getElementById('disable-button').addEventListener('click', function () {
@@ -391,6 +391,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     _this._controlEls = _this._findControlsInDom(name);
                     _this._originalValue = _this.getValue();
                     _this._validators = validators;
+                    _this._elToPutClasses = _this._findElToPutClasses(name);
                     _this._attachToDom();
                     return _this;
                 }
@@ -498,18 +499,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     });
                 };
                 BdFormControl.prototype._onControlChange = function (controlEl) {
-                    this._updateControlPristine(controlEl);
-                    this._updateValid(this._checkValidity(), controlEl);
+                    var elToPutClasses = this._elToPutClasses || controlEl;
+                    this._updateControlPristine(elToPutClasses);
+                    this._updateValid(this._checkValidity(), elToPutClasses);
                 };
                 BdFormControl.prototype._onControlBlur = function (controlEl) {
-                    this._updateUnTouched(false, controlEl);
+                    var elToPutClasses = this._elToPutClasses || controlEl;
+                    this._updateUnTouched(false, elToPutClasses);
                 };
                 BdFormControl.prototype._updateControlPristine = function (controlEl) {
                     var currentValue = this.getValue();
+                    var elToPutClasses = this._elToPutClasses || controlEl;
                     if (currentValue === this._originalValue) {
-                        this._updatePristine(true, controlEl);
+                        this._updatePristine(true, elToPutClasses);
                     } else {
-                        this._updatePristine(false, controlEl);
+                        this._updatePristine(false, elToPutClasses);
                     }
                 };
                 BdFormControl.prototype._attachToDom = function () {
@@ -519,9 +523,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 BdFormControl.prototype._resetControlStates = function () {
                     var _this = this;
                     this._controlEls.forEach(function (controlEl) {
-                        _this._updatePristine(true, controlEl);
-                        _this._updateUnTouched(true, controlEl);
-                        _this._updateValid(_this._checkValidity(), controlEl);
+                        var elToPutClasses = _this._elToPutClasses || controlEl;
+                        _this._updatePristine(true, elToPutClasses);
+                        _this._updateUnTouched(true, elToPutClasses);
+                        _this._updateValid(_this._checkValidity(), elToPutClasses);
                     });
                 };
                 BdFormControl.prototype._resetControlValues = function () {
@@ -536,6 +541,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         }
                     });
                     return isValid;
+                };
+                BdFormControl.prototype._findElToPutClasses = function (name) {
+                    var elToPutClasses = this._document.querySelector("[data-bd-form-control-classes=\"" + name + "\"");
+                    if (!elToPutClasses) return;
+                    return elToPutClasses;
                 };
                 return BdFormControl;
             }(__WEBPACK_IMPORTED_MODULE_0__abstract_control__["a" /* AbstractControl */]);
@@ -845,7 +855,7 @@ exports = module.exports = __webpack_require__(45)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\n  height: 100%;\n  width: 100%; }\n\n.button {\n  background-color: deepskyblue;\n  color: black;\n  padding: 15px 30px;\n  text-transform: uppercase; }\n\n.form.bd-invalid {\n  border: 5px solid firebrick; }\n\n.form.bd-valid {\n  border: 5px solid darkgreen; }\n\ninput[type=\"text\"].form-control.bd-invalid {\n  border-left: 5px solid firebrick; }\n\ninput[type=\"text\"].form-control.bd-valid {\n  border-left: 5px solid darkgreen; }\n\ninput[type=\"text\"].form-control.bd-pristine {\n  background-color: palegoldenrod; }\n\ninput[type=\"text\"].form-control.bd-dirty {\n  background-color: dimgrey; }\n\ninput[type=\"text\"].form-control.bd-untouched {\n  border-right: 5px solid blueviolet; }\n\ninput[type=\"text\"].form-control.bd-touched {\n  border-right: 5px solid black; }\n\n.form-group.bd-invalid h5 {\n  color: red; }\n\n.form-group.bd-valid h5 {\n  color: green; }\n", ""]);
+exports.push([module.i, "html, body {\n  height: 100%;\n  width: 100%; }\n\n.button {\n  background-color: deepskyblue;\n  color: black;\n  padding: 15px 30px;\n  text-transform: uppercase; }\n\n.form-group.bd-invalid h5, .form-group.bd-invalid label {\n  color: red; }\n\n.form-group.bd-valid h5, .form-group.bd-valid label {\n  color: green; }\n\n.form.bd-invalid {\n  border: 5px solid firebrick; }\n\n.form.bd-valid {\n  border: 5px solid darkgreen; }\n\ninput[type=\"text\"].form-control.bd-invalid {\n  border-left: 5px solid firebrick; }\n\ninput[type=\"text\"].form-control.bd-valid {\n  border-left: 5px solid darkgreen; }\n\ninput[type=\"text\"].form-control.bd-pristine {\n  background-color: palegoldenrod; }\n\ninput[type=\"text\"].form-control.bd-dirty {\n  background-color: dimgrey; }\n\ninput[type=\"text\"].form-control.bd-untouched {\n  border-right: 5px solid blueviolet; }\n\ninput[type=\"text\"].form-control.bd-touched {\n  border-right: 5px solid black; }\n", ""]);
 
 // exports
 

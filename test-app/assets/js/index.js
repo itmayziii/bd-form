@@ -19,9 +19,9 @@ import { BdFormBuilder, GroupValidators, ControlValidators } from '../../../dist
             "option-two": "",
             "option-three": ""
         }, [GroupValidators.atLeastOneSelected]),
-        "test-radio": fb.group('test-radio', {
-            "test-radio": ""
-        })
+        "test-radio": {
+            validators: [ControlValidators.required]
+        }
     });
 
     document.getElementById('disable-button').addEventListener('click', () => {

@@ -6,6 +6,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     private _document: any;
     private _originalValue: any;
     private _validators: { (c: BdFormControl): boolean }[];
+    private _elToPutClasses: HTMLElement;
 
     public constructor(name: string, validators: { (c: BdFormControl): boolean }[] = [], document: any) {
         super();
@@ -14,6 +15,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
         this._originalValue = this.getValue();
         this._validators = validators;
 
+        this._elToPutClasses = this._findElToPutClasses(name);
         this._attachToDom();
     }
 
@@ -142,21 +144,24 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
         });
     }
 
-    private _onControlChange(controlEl: HTMLInputElement): void {
-        this._updateControlPristine(controlEl);
-        this._updateValid(this._checkValidity(), controlEl);
+    private _onControlChange(controlEl: HTMLElement): void {
+        const elToPutClasses: HTMLElement = this._elToPutClasses || controlEl;
+        this._updateControlPristine(elToPutClasses);
+        this._updateValid(this._checkValidity(), elToPutClasses);
     }
 
-    private _onControlBlur(controlEl: HTMLInputElement): void {
-        this._updateUnTouched(false, controlEl);
+    private _onControlBlur(controlEl: HTMLElement): void {
+        const elToPutClasses = this._elToPutClasses || controlEl;
+        this._updateUnTouched(false, elToPutClasses);
     }
 
-    private _updateControlPristine(controlEl: HTMLInputElement): void {
+    private _updateControlPristine(controlEl: HTMLElement): void {
         const currentValue = this.getValue();
+        const elToPutClasses = this._elToPutClasses || controlEl;
         if (currentValue === this._originalValue) {
-            this._updatePristine(true, controlEl);
+            this._updatePristine(true, elToPutClasses);
         } else {
-            this._updatePristine(false, controlEl);
+            this._updatePristine(false, elToPutClasses);
         }
     }
 
@@ -167,9 +172,10 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
 
     private _resetControlStates(): void {
         this._controlEls.forEach((controlEl) => {
-            this._updatePristine(true, controlEl);
-            this._updateUnTouched(true, controlEl);
-            this._updateValid(this._checkValidity(), controlEl);
+            const elToPutClasses = this._elToPutClasses || controlEl;
+            this._updatePristine(true, elToPutClasses);
+            this._updateUnTouched(true, elToPutClasses);
+            this._updateValid(this._checkValidity(), elToPutClasses);
         });
     }
 
@@ -186,5 +192,12 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
         });
 
         return isValid;
+    }
+
+    private _findElToPutClasses(name: string): HTMLElement {
+        const elToPutClasses = this._document.querySelector(`[data-bd-form-control-classes="${name}"`);
+        if (!elToPutClasses) return;
+
+        return elToPutClasses
     }
 }

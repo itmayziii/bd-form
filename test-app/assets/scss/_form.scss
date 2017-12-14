@@ -1,5 +1,19 @@
 .form {
 
+    &-group {
+        &.bd-invalid {
+            h5, label {
+                color: red;
+            }
+        }
+
+        &.bd-valid {
+            h5, label {
+                color: green;
+            }
+        }
+    }
+
     &.bd-invalid {
         border: 5px solid firebrick;
     }
@@ -32,19 +46,5 @@ input[type="text"].form-control {
 
     &.bd-touched {
         border-right: 5px solid black;
-    }
-}
-
-.form-group {
-    &.bd-invalid {
-        h5 {
-            color: red;
-        }
-    }
-
-    &.bd-valid {
-        h5 {
-            color: green;
-        }
     }
 }
