@@ -543,7 +543,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     return isValid;
                 };
                 BdFormControl.prototype._findElToPutClasses = function (name) {
-                    var elToPutClasses = this._document.querySelector("[data-bd-form-control-classes=\"" + name + "\"");
+                    var elToPutClasses = this._document.querySelector("[data-bd-form-control-classes=\"" + name + "\"]");
                     if (!elToPutClasses) return;
                     return elToPutClasses;
                 };

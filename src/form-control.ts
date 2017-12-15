@@ -195,7 +195,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     }
 
     private _findElToPutClasses(name: string): HTMLElement {
-        const elToPutClasses = this._document.querySelector(`[data-bd-form-control-classes="${name}"`);
+        const elToPutClasses = this._document.querySelector(`[data-bd-form-control-classes="${name}"]`);
         if (!elToPutClasses) return;
 
         return elToPutClasses
