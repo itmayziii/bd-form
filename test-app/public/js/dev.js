@@ -109,10 +109,14 @@ var _form = __webpack_require__(41);
     document.getElementById('disable-button').addEventListener('click', function () {
         testForm.disable();
     });
-    //
-    // document.getElementById('enable-button').addEventListener('click', () => {
-    //     testForm.reset();
-    // });
+
+    document.getElementById('enable-button').addEventListener('click', function () {
+        testForm.enable();
+    });
+
+    document.getElementById('reset-button').addEventListener('click', function () {
+        testForm.reset();
+    });
 })();
 
 /***/ }),
@@ -454,8 +458,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     });
                 };
                 BdFormControl.prototype.reset = function () {
-                    this._resetControlStates();
                     this._resetControlValues();
+                    this._resetControlStates();
                 };
                 BdFormControl.prototype.registerPristineListener = function (callback) {
                     this._pristineListeners.push(callback);
@@ -767,6 +771,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var ControlValidators = /** @class */function () {
                 function ControlValidators() {}
                 ControlValidators.required = function (control) {
+                    console.log('control ', control);
+                    console.log('control.getValue() ', control.getValue());
                     var controlValue = control.getValue();
                     return controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '';
                 };

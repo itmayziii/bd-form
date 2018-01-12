@@ -90,8 +90,8 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     }
 
     public reset(): void {
-        this._resetControlStates();
         this._resetControlValues();
+        this._resetControlStates();
     }
 
     public registerPristineListener(callback: any): void {

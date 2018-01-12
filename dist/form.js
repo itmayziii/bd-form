@@ -299,8 +299,8 @@ var BdFormControl = /** @class */ (function (_super) {
         });
     };
     BdFormControl.prototype.reset = function () {
-        this._resetControlStates();
         this._resetControlValues();
+        this._resetControlStates();
     };
     BdFormControl.prototype.registerPristineListener = function (callback) {
         this._pristineListeners.push(callback);
@@ -602,6 +602,8 @@ var ControlValidators = /** @class */ (function () {
     function ControlValidators() {
     }
     ControlValidators.required = function (control) {
+        console.log('control ', control);
+        console.log('control.getValue() ', control.getValue());
         var controlValue = control.getValue();
         return (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '');
     };
