@@ -10,6 +10,9 @@ import { BdFormBuilder, GroupValidators, ControlValidators } from '../../../dist
             value: "",
             validators: [ControlValidators.required]
         },
+        "city": {
+            validators: [ControlValidators.required]
+        },
         "email": {
             email: "",
             validators: [ControlValidators.email]
@@ -27,8 +30,12 @@ import { BdFormBuilder, GroupValidators, ControlValidators } from '../../../dist
     document.getElementById('disable-button').addEventListener('click', () => {
         testForm.disable();
     });
-    //
-    // document.getElementById('enable-button').addEventListener('click', () => {
-    //     testForm.reset();
-    // });
+
+    document.getElementById('enable-button').addEventListener('click', () => {
+        testForm.enable();
+    });
+
+    document.getElementById('reset-button').addEventListener('click', () => {
+        testForm.reset();
+    });
 })();

@@ -1,6 +1,6 @@
 {
   "name": "bd-form",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Helps perform complex data validation on the front end",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "node_modules/.bin/webpack --config webpack.config.js && node_modules/.bin/webpack --config test-app/webpack.config.js",
     "test": "node_modules/.bin/karma start"
   },
-  "author": "tommymay37@gmail.com",
+  "author": "Tommy May III <tommymay37@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/jasmine": "^2.8.2",

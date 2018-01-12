@@ -12,6 +12,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
         super();
         this._document = document;
         this._controlEls = this._findControlsInDom(name);
+        this._name = name;
         this._originalValue = this.getValue();
         this._validators = validators;
 
@@ -26,7 +27,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     public getValue(): any {
         let value: any = '';
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
-            const controlElType = controlEl.type;
+            const controlElType = (controlEl.tagName === "INPUT") ? controlEl.type : 'other';
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     value = controlEl.checked;
@@ -48,7 +49,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
 
     public setValue(value: any): void {
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
-            const controlElType = controlEl.type;
+            const controlElType = (controlEl.tagName === "INPUT") ? controlEl.type : 'other';
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     controlEl.checked = value === true;
@@ -90,8 +91,8 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     }
 
     public reset(): void {
-        this._resetControlStates();
         this._resetControlValues();
+        this._resetControlStates();
     }
 
     public registerPristineListener(callback: any): void {
