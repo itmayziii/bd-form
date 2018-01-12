@@ -92,6 +92,9 @@ var _form = __webpack_require__(41);
             value: "",
             validators: [_form.ControlValidators.required]
         },
+        "city": {
+            validators: [_form.ControlValidators.required]
+        },
         "email": {
             email: "",
             validators: [_form.ControlValidators.email]
@@ -238,6 +241,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         VALID: 'bd-valid'
                     };
                 }
+                AbstractControl.prototype.getName = function () {
+                    return this._name;
+                };
                 AbstractControl.prototype._updatePristine = function (isPristine, classEl) {
                     var _this = this;
                     if (isPristine) {
@@ -393,6 +399,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     var _this = _super.call(this) || this;
                     _this._document = document;
                     _this._controlEls = _this._findControlsInDom(name);
+                    _this._name = name;
                     _this._originalValue = _this.getValue();
                     _this._validators = validators;
                     _this._elToPutClasses = _this._findElToPutClasses(name);
@@ -406,7 +413,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 BdFormControl.prototype.getValue = function () {
                     var value = '';
                     this._controlEls.forEach(function (controlEl) {
-                        var controlElType = controlEl.type;
+                        var controlElType = controlEl.tagName === "INPUT" ? controlEl.type : 'other';
                         switch (controlElType.toUpperCase()) {
                             case 'CHECKBOX':
                                 value = controlEl.checked;
@@ -424,7 +431,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 };
                 BdFormControl.prototype.setValue = function (value) {
                     this._controlEls.forEach(function (controlEl) {
-                        var controlElType = controlEl.type;
+                        var controlElType = controlEl.tagName === "INPUT" ? controlEl.type : 'other';
                         switch (controlElType.toUpperCase()) {
                             case 'CHECKBOX':
                                 controlEl.checked = value === true;
@@ -592,8 +599,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         validators = [];
                     }
                     var _this = _super.call(this) || this;
+                    console.log('formControls ', formControls);
                     _this._controls = formControls;
                     _this._document = document;
+                    _this._name = groupName;
                     _this._groupEl = _this._findGroupInDom(groupName);
                     _this._validators = validators;
                     _this._attachToDom();
@@ -606,6 +615,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         values[controlKey] = control.getValue();
                     }
                     return values;
+                };
+                BdFormGroup.prototype.getName = function () {
+                    return this._name;
                 };
                 BdFormGroup.prototype.disable = function () {
                     for (var controlKey in this._controls) {
@@ -691,6 +703,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 BdFormGroup.prototype.getControl = function (controlName) {
                     return this._controls[controlName];
                 };
+                BdFormGroup.prototype.addControl = function (control) {
+                    this._controls[control.getName()] = control;
+                };
+                BdFormGroup.prototype.removeControl = function (controlName) {
+                    if (this._controls.hasOwnProperty(controlName)) {
+                        delete this._controls[controlName];
+                    }
+                };
                 BdFormGroup.prototype._findGroupInDom = function (groupName) {
                     var formGroupEls = this._document.querySelectorAll("[data-bd-form-group=\"" + groupName + "\"]");
                     if (formGroupEls.length !== 1) {
@@ -771,8 +791,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var ControlValidators = /** @class */function () {
                 function ControlValidators() {}
                 ControlValidators.required = function (control) {
-                    console.log('control ', control);
-                    console.log('control.getValue() ', control.getValue());
                     var controlValue = control.getValue();
                     return controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '';
                 };

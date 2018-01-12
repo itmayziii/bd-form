@@ -1,6 +1,6 @@
 {
   "name": "bd-form",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Helps perform complex data validation on the front end",
   "main": "index.js",
   "scripts": {

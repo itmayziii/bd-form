@@ -12,6 +12,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
         super();
         this._document = document;
         this._controlEls = this._findControlsInDom(name);
+        this._name = name;
         this._originalValue = this.getValue();
         this._validators = validators;
 

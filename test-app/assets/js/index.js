@@ -10,6 +10,9 @@ import { BdFormBuilder, GroupValidators, ControlValidators } from '../../../dist
             value: "",
             validators: [ControlValidators.required]
         },
+        "city": {
+            validators: [ControlValidators.required]
+        },
         "email": {
             email: "",
             validators: [ControlValidators.email]

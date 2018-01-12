@@ -1,6 +1,8 @@
 export interface ControlInterface {
     getValue(): any,
 
+    getName(): string,
+
     disable(): void,
 
     enable(): void,

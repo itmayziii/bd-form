@@ -95,6 +95,9 @@ var AbstractControl = /** @class */ (function () {
             VALID: 'bd-valid'
         };
     }
+    AbstractControl.prototype.getName = function () {
+        return this._name;
+    };
     AbstractControl.prototype._updatePristine = function (isPristine, classEl) {
         var _this = this;
         if (isPristine) {
@@ -234,6 +237,7 @@ var BdFormControl = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this._document = document;
         _this._controlEls = _this._findControlsInDom(name);
+        _this._name = name;
         _this._originalValue = _this.getValue();
         _this._validators = validators;
         _this._elToPutClasses = _this._findElToPutClasses(name);
@@ -424,8 +428,10 @@ var BdFormGroup = /** @class */ (function (_super) {
         if (formControls === void 0) { formControls = {}; }
         if (validators === void 0) { validators = []; }
         var _this = _super.call(this) || this;
+        console.log('formControls ', formControls);
         _this._controls = formControls;
         _this._document = document;
+        _this._name = groupName;
         _this._groupEl = _this._findGroupInDom(groupName);
         _this._validators = validators;
         _this._attachToDom();
@@ -438,6 +444,9 @@ var BdFormGroup = /** @class */ (function (_super) {
             values[controlKey] = control.getValue();
         }
         return values;
+    };
+    BdFormGroup.prototype.getName = function () {
+        return this._name;
     };
     BdFormGroup.prototype.disable = function () {
         for (var controlKey in this._controls) {
@@ -523,6 +532,14 @@ var BdFormGroup = /** @class */ (function (_super) {
     };
     BdFormGroup.prototype.getControl = function (controlName) {
         return this._controls[controlName];
+    };
+    BdFormGroup.prototype.addControl = function (control) {
+        this._controls[control.getName()] = control;
+    };
+    BdFormGroup.prototype.removeControl = function (controlName) {
+        if (this._controls.hasOwnProperty(controlName)) {
+            delete this._controls[controlName];
+        }
     };
     BdFormGroup.prototype._findGroupInDom = function (groupName) {
         var formGroupEls = this._document.querySelectorAll("[data-bd-form-group=\"" + groupName + "\"]");

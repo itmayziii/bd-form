@@ -5,6 +5,7 @@ export class AbstractControl {
     protected _pristine: boolean = true;
     protected _untouched: boolean = true;
     protected _valid: boolean;
+    protected _name: string;
     protected readonly _controlStates: { [key: string]: string } = {
         TOUCHED: 'bd-touched',
         UNTOUCHED: 'bd-untouched',
@@ -13,6 +14,10 @@ export class AbstractControl {
         INVALID: 'bd-invalid',
         VALID: 'bd-valid'
     };
+
+    public getName(): string {
+        return this._name;
+    }
 
     protected _updatePristine(isPristine: boolean, classEl: HTMLElement) {
         if (isPristine) {
