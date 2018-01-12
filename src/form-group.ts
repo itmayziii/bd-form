@@ -17,7 +17,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         this._attachToDom();
     }
 
-    getValue(): any {
+    public getValue(): any {
         let values: { [key: string]: any } = {};
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
@@ -27,21 +27,21 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         return values;
     }
 
-    disable(): void {
+    public disable(): void {
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
             control.disable();
         }
     }
 
-    enable(): void {
+    public enable(): void {
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
             control.enable();
         }
     }
 
-    isPristine(): boolean {
+    public isPristine(): boolean {
         let isPristine = true;
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
@@ -54,7 +54,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         return isPristine;
     }
 
-    isUntouched(): boolean {
+    public isUntouched(): boolean {
         let isUntouched = true;
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
@@ -67,7 +67,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         return isUntouched;
     }
 
-    isValid(): boolean {
+    public isValid(): boolean {
         let isValid = true;
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
@@ -86,7 +86,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         return isValid;
     }
 
-    reset(): void {
+    public reset(): void {
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
             control.reset();
@@ -95,7 +95,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         this._resetControlStates();
     }
 
-    registerPristineListener(callback: any): void {
+    public registerPristineListener(callback: any): void {
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
             control.registerPristineListener(() => {
@@ -104,7 +104,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         }
     }
 
-    registerUntouchedListener(callback: any): void {
+    public registerUntouchedListener(callback: any): void {
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
             control.registerUntouchedListener(() => {
@@ -113,7 +113,7 @@ export class BdFormGroup extends AbstractControl implements ControlInterface {
         }
     }
 
-    registerValidListener(callback: any): void {
+    public registerValidListener(callback: any): void {
         for (let controlKey in this._controls) {
             const control = this._controls[controlKey];
             control.registerValidListener(() => {

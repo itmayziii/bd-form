@@ -247,7 +247,7 @@ var BdFormControl = /** @class */ (function (_super) {
     BdFormControl.prototype.getValue = function () {
         var value = '';
         this._controlEls.forEach(function (controlEl) {
-            var controlElType = controlEl.type;
+            var controlElType = (controlEl.tagName === "INPUT") ? controlEl.type : 'other';
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     value = controlEl.checked;
@@ -265,7 +265,7 @@ var BdFormControl = /** @class */ (function (_super) {
     };
     BdFormControl.prototype.setValue = function (value) {
         this._controlEls.forEach(function (controlEl) {
-            var controlElType = controlEl.type;
+            var controlElType = (controlEl.tagName === "INPUT") ? controlEl.type : 'other';
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     controlEl.checked = value === true;
@@ -602,8 +602,6 @@ var ControlValidators = /** @class */ (function () {
     function ControlValidators() {
     }
     ControlValidators.required = function (control) {
-        console.log('control ', control);
-        console.log('control.getValue() ', control.getValue());
         var controlValue = control.getValue();
         return (controlValue !== false && controlValue !== null && controlValue !== undefined && controlValue !== '');
     };

@@ -26,7 +26,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
     public getValue(): any {
         let value: any = '';
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
-            const controlElType = controlEl.type;
+            const controlElType = (controlEl.tagName === "INPUT") ? controlEl.type : 'other';
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     value = controlEl.checked;
@@ -48,7 +48,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
 
     public setValue(value: any): void {
         this._controlEls.forEach((controlEl: HTMLInputElement) => {
-            const controlElType = controlEl.type;
+            const controlElType = (controlEl.tagName === "INPUT") ? controlEl.type : 'other';
             switch (controlElType.toUpperCase()) {
                 case 'CHECKBOX':
                     controlEl.checked = value === true;
