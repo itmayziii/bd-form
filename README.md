@@ -32,7 +32,7 @@ is both form groups and form controls implement the same interface, so you can r
     registerValidListener?(callback: any): void
 ```
 
-Groups implement and additional interface than controls to allow manipulation of the groups controls. Here is the interface, it cal also be found in */src/group-interface.ts*
+Groups implement and additional interface to allow manipulation of the groups controls. Here is the interface, it cal also be found in */src/group-interface.ts*
 ```
     getControl(controlName: string): ControlInterface;
 
