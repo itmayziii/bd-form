@@ -1,8 +1,12 @@
 {
   "name": "bd-form",
   "version": "0.0.8",
-  "description": "Helps perform complex data validation on the front end",
+  "description": "Inspired by the way Angular handles forms with the valid, pristine, and untouched classes and their counterparts. This library also aims to smooth out the inconsistencies in the HTML form APIs.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itmayziii/bd-form"
+  },
   "scripts": {
     "dev:library": "node_modules/.bin/webpack -w --config webpack.config.js",
     "dev:test-app": "node_modules/.bin/webpack -w --config test-app/webpack.config.js",

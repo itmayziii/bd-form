@@ -1,7 +1,8 @@
 import { ControlInterface } from "./control-interface";
 import { AbstractControl } from "./abstract-control";
+import { GroupInterface } from "./group-interface";
 
-export class BdFormControl extends AbstractControl implements ControlInterface {
+export class BdFormControl extends AbstractControl implements ControlInterface, GroupInterface {
     private _controlEls: HTMLInputElement[];
     private _document: any;
     private _originalValue: any;
