@@ -1,7 +1,8 @@
 import { ControlInterface } from "./control-interface";
 import { AbstractControl } from "./abstract-control";
+import { GroupInterface } from "./group-interface";
 
-export class BdFormGroup extends AbstractControl implements ControlInterface {
+export class BdFormGroup extends AbstractControl implements ControlInterface, GroupInterface {
     private _controls: { [key: string]: ControlInterface };
     private _document: any;
     private _groupEl: HTMLElement;
