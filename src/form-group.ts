@@ -10,7 +10,6 @@ export class BdFormGroup extends AbstractControl implements ControlInterface, Gr
 
     public constructor(groupName: string, formControls: { [key: string]: ControlInterface } = {}, validators: any[] = [], document: any) {
         super();
-        console.log('formControls ', formControls);
         this._controls = formControls;
         this._document = document;
         this._name = groupName;
