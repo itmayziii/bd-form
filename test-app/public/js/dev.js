@@ -599,7 +599,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         validators = [];
                     }
                     var _this = _super.call(this) || this;
-                    console.log('formControls ', formControls);
                     _this._controls = formControls;
                     _this._document = document;
                     _this._name = groupName;

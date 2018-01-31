@@ -428,7 +428,6 @@ var BdFormGroup = /** @class */ (function (_super) {
         if (formControls === void 0) { formControls = {}; }
         if (validators === void 0) { validators = []; }
         var _this = _super.call(this) || this;
-        console.log('formControls ', formControls);
         _this._controls = formControls;
         _this._document = document;
         _this._name = groupName;
