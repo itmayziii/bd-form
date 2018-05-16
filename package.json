@@ -1,8 +1,8 @@
 {
   "name": "bd-form",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Inspired by the way Angular handles forms with the valid, pristine, and untouched classes and their counterparts. This library also aims to smooth out the inconsistencies in the HTML form APIs.",
-  "main": "index.js",
+  "main": "dist/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/itmayziii/bd-form"
