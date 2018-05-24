@@ -336,7 +336,7 @@ var BdFormControl = /** @class */ (function (_super) {
                 _this._onControlBlur(event.currentTarget);
             });
             var controlElType = controlEl.type.toUpperCase();
-            if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
+            if (controlElType === 'CHECKBOX' || controlElType === 'RADIO' || controlElType === 'SELECT-ONE') {
                 controlEl.addEventListener('change', function (event) {
                     _this._onControlChange(event.target);
                 });

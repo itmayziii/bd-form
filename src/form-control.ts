@@ -132,7 +132,7 @@ export class BdFormControl extends AbstractControl implements ControlInterface {
             });
 
             const controlElType = controlEl.type.toUpperCase();
-            if (controlElType === 'CHECKBOX' || controlElType === 'RADIO') {
+            if (controlElType === 'CHECKBOX' || controlElType === 'RADIO' || controlElType === 'SELECT-ONE') {
                 controlEl.addEventListener('change', (event: any) => {
                     this._onControlChange(event.target);
                 });
